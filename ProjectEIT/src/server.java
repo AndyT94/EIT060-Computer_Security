@@ -1,4 +1,5 @@
 import java.io.*;
+import java.math.BigInteger;
 import java.net.*;
 import java.security.KeyStore;
 import javax.net.*;
@@ -21,9 +22,13 @@ public class server implements Runnable {
             SSLSession session = socket.getSession();
             X509Certificate cert = (X509Certificate)session.getPeerCertificateChain()[0];
             String subject = cert.getSubjectDN().getName();
+            String issuer = cert.getIssuerDN().getName();
+            BigInteger serialNbr = cert.getSerialNumber();
     	    numConnectedClients++;
             System.out.println("client connected");
             System.out.println("client name (cert subject DN field): " + subject);
+            System.out.println("Issuer: " + issuer);
+            System.out.println("Serial number: " + serialNbr);
             System.out.println(numConnectedClients + " concurrent connection(s)\n");
 
             PrintWriter out = null;
@@ -84,8 +89,8 @@ public class server implements Runnable {
 				KeyStore ts = KeyStore.getInstance("JKS");
                 char[] password = "password".toCharArray();
 
-                ks.load(new FileInputStream("serverkeystore"), password);  // keystore password (storepass)
-                ts.load(new FileInputStream("servertruststore"), password); // truststore password (storepass)
+                ks.load(new FileInputStream("../certificate/serverkeystore"), password);  // keystore password (storepass)
+                ts.load(new FileInputStream("../certificate/servertruststore"), password); // truststore password (storepass)
                 kmf.init(ks, password); // certificate password (keypass)
                 tmf.init(ts);  // possible to use keystore as truststore here
                 ctx.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);

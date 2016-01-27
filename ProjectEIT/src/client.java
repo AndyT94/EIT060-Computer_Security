@@ -1,5 +1,7 @@
 import java.net.*;
 import java.io.*;
+import java.math.BigInteger;
+
 import javax.net.ssl.*;
 import javax.security.cert.X509Certificate;
 import java.security.KeyStore;
@@ -42,8 +44,8 @@ public class client {
                 KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
                 TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
                 SSLContext ctx = SSLContext.getInstance("TLS");
-                ks.load(new FileInputStream("clientkeystore"), password);  // keystore password (storepass)
-				ts.load(new FileInputStream("clienttruststore"), password); // truststore password (storepass);
+                ks.load(new FileInputStream("../certificate/clientkeystore"), password);  // keystore password (storepass)
+				ts.load(new FileInputStream("../certificate/clienttruststore"), password); // truststore password (storepass);
 				kmf.init(ks, password); // user password (keypass)
 				tmf.init(ts); // keystore can be used as truststore here
 				ctx.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
@@ -65,7 +67,11 @@ public class client {
             SSLSession session = socket.getSession();
             X509Certificate cert = (X509Certificate)session.getPeerCertificateChain()[0];
             String subject = cert.getSubjectDN().getName();
+            String issuer = cert.getIssuerDN().getName();
+            BigInteger serialNbr = cert.getSerialNumber();
             System.out.println("certificate name (subject DN field) on certificate received from server:\n" + subject + "\n");
+            System.out.println("Issuer: " + issuer);
+            System.out.println("Serial number: " + serialNbr);
             System.out.println("socket after handshake:\n" + socket + "\n");
             System.out.println("secure connection established\n\n");
 
