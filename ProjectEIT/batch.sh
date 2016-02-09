@@ -9,7 +9,7 @@ caCert = "certificate/ca-certificate.pem"
 caKey = "certificate/ca-key.pem"
 
 #import CA certifcate to truststore
-keytool -import -file certificate/ca-certificate.pem -alias CA -keystore $truststore
+keytool -import $caCert -alias CA -keystore $truststore
 
 #generate keypair
 keytool -keystore $keystore -genkeypair -alias $name
