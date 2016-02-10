@@ -1,15 +1,14 @@
 echo "Enter name "
-read name
+read -r name
 
-truststore = "${name}truststore"
-keystore = "${name}keystore"
-csr = "${name}.csr"
-cer = "${name}.cer"
-caCert = "certificate/ca-certificate.pem"
-caKey = "certificate/ca-key.pem"
+truststore="${name}truststore"
+keystore="${name}keystore"
+csr="${name}.csr"
+cer="${name}.cer"
+caCert="certificate/ca-certificate.pem"
+caKey="certificate/ca-key.pem"
 
-#import CA certificate to truststore
-keytool -import $caCert -alias CA -keystore $truststore
+
 
 #generate keypair
 keytool -keystore $keystore -genkeypair -alias $name
@@ -25,3 +24,6 @@ keytool -import -keystore $keystore -file $caCert -alias CA
 
 #import signed certificate
 keytool -import -keystore $keystore -file $cer -alias $name 
+
+#import CA certificate to truststore
+keytool -import -file $caCert -alias CA -keystore $truststore
