@@ -1,12 +1,15 @@
 import java.io.BufferedReader;
 import java.io.Console;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.util.Scanner;
 
 import javax.net.ssl.KeyManagerFactory;
@@ -26,7 +29,7 @@ import javax.security.cert.X509Certificate;
  * the firewall by following SSLSocketClientWithTunneling.java.
  */
 public class client {
-
+	
 	public static void main(String[] args) throws Exception {
 		String host = null;
 		int port = -1;
@@ -47,13 +50,9 @@ public class client {
 
 		try { /* set up a key manager for client authentication */
 			SSLSocketFactory factory = null;
-			try {
-				factory = login(factory);
-			} catch (Exception e) {
-				System.out.println("Wrong username or password!");
-				factory = login(factory);
-				//throw new IOException(e.getMessage());
-			}
+			
+			factory = login(factory);
+			
 			SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
 			System.out.println("\nsocket before handshake:\n" + socket + "\n");
 
@@ -104,7 +103,8 @@ public class client {
 		}
 	}
 
-	private static SSLSocketFactory login(SSLSocketFactory factory) throws Exception {
+	private static SSLSocketFactory login(SSLSocketFactory factory) {
+		try {
 		// TODO spoofing detection, FIX TO PROJECT 2 users
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Enter username: ");
@@ -120,7 +120,8 @@ public class client {
 		SSLContext ctx = SSLContext.getInstance("TLS");
 		String ksPath = "../home/users/" + username + "/" + username + "keystore";
 		String tsPath = "../home/users/" + username + "/" + username + "truststore";
-		ks.load(new FileInputStream(ksPath), password); // keystore password
+		ks.load(new FileInputStream(ksPath), password); // keystore
+														// password
 														// (storepass)
 		ts.load(new FileInputStream(tsPath), password); // truststore password
 														// (storepass);
@@ -128,6 +129,10 @@ public class client {
 		tmf.init(ts); // keystore can be used as truststore here
 		ctx.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
 		factory = ctx.getSocketFactory();
+		} catch (Exception e) {
+			System.out.println("Wrong username or password!");
+			return login(factory);
+		}
 		return factory;
 	}
 }
