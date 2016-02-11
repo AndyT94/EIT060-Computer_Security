@@ -1,3 +1,4 @@
+package server;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.*;
@@ -26,11 +27,14 @@ public class server implements Runnable {
             BigInteger serialNbr = cert.getSerialNumber();
     	    numConnectedClients++;
             System.out.println("client connected");
-            System.out.println("client name (cert subject DN field): " + subject);
+            
             System.out.println("Issuer: " + issuer);
             System.out.println("Serial number: " + serialNbr);
+            System.out.println("Welcome " + subject);
             System.out.println(numConnectedClients + " concurrent connection(s)\n");
 
+            
+            
             PrintWriter out = null;
             BufferedReader in = null;
             out = new PrintWriter(socket.getOutputStream(), true);
