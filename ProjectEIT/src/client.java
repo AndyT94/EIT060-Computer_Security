@@ -118,8 +118,8 @@ public class client {
 		KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
 		TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
 		SSLContext ctx = SSLContext.getInstance("TLS");
-		String ksPath = "../home/users/" + username + "/" + username + "keystore";
-		String tsPath = "../home/users/" + username + "/" + username + "truststore";
+		String ksPath = "../home/client/" + username + "/" + username + "keystore";
+		String tsPath = "../home/client/" + username + "/" + username + "truststore";
 		ks.load(new FileInputStream(ksPath), password); // keystore
 														// password
 														// (storepass)
