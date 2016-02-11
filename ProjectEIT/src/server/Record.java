@@ -18,21 +18,21 @@ public class Record {
 	public void setNurse(Nurse newNurse) {
 		nurse = newNurse;
 	}
-	
+
 	public void setDoctor(Doctor newDoctor) {
 		doctor = newDoctor;
 	}
-	
+
 	public void setNotes(String newNotes) {
 		notes = newNotes;
 	}
-	
+
 	public void setDate(String newDate) {
 		date = newDate;
 	}
-	
+
 	public String toString() {
-		return "Patient: " + patient.getName() + "\nDate:" + date + "\nNurse: " + nurse.getName() + "\nDoctor: "
-				+ doctor.getName() + "\nNotes: " + notes;
+		return "Patient: " + patient.getName() + "\nDivision: " + doctor.getDivision() + "\nDate:" + date + "\nNurse: "
+				+ nurse.getName() + "\nDoctor: " + doctor.getName() + "\nNotes: " + notes;
 	}
 }
