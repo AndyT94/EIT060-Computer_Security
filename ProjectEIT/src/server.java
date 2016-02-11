@@ -40,7 +40,7 @@ public class server implements Runnable {
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            CommandHandler ch = new CommandHandler(subject);
+            CommandHandler ch = new CommandHandler(subject, out, in);
             
             String clientMsg = null;
             while ((clientMsg = in.readLine()) != null) {
