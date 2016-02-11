@@ -1,4 +1,4 @@
-package client;
+
 import java.io.BufferedReader;
 import java.io.Console;
 import java.io.FileInputStream;
@@ -119,8 +119,8 @@ public class client {
 		KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
 		TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
 		SSLContext ctx = SSLContext.getInstance("TLS");
-		String ksPath = "../home/client/" + username + "/" + username + "keystore";
-		String tsPath = "../home/client/" + username + "/" + username + "truststore";
+		String ksPath = "../client/users/" + username + "/" + username + "keystore";
+		String tsPath = "../client/users/" + username + "/" + username + "truststore";
 		ks.load(new FileInputStream(ksPath), password); // keystore
 														// password
 														// (storepass)

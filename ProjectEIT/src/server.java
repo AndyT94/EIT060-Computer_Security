@@ -1,4 +1,4 @@
-package server;
+
 import java.io.*;
 import java.math.BigInteger;
 import java.net.*;
@@ -6,6 +6,8 @@ import java.security.KeyStore;
 import javax.net.*;
 import javax.net.ssl.*;
 import javax.security.cert.X509Certificate;
+
+import server.CommandHandler;
 
 public class server implements Runnable {
     private ServerSocket serverSocket = null;
@@ -32,16 +34,19 @@ public class server implements Runnable {
             System.out.println("Serial number: " + serialNbr);
             System.out.println("Welcome " + subject);
             System.out.println(numConnectedClients + " concurrent connection(s)\n");
-
-            
             
             PrintWriter out = null;
             BufferedReader in = null;
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
+            CommandHandler ch = new CommandHandler(subject);
+            
             String clientMsg = null;
             while ((clientMsg = in.readLine()) != null) {
+            	ch.processCommand(clientMsg);
+            	
+            	
 			    String rev = new StringBuilder(clientMsg).reverse().toString();
                 System.out.println("received '" + clientMsg + "' from client");
                 System.out.print("sending '" + rev + "' to client...");
