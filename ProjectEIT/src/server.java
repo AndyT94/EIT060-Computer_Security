@@ -46,7 +46,6 @@ public class server implements Runnable {
             while ((clientMsg = in.readLine()) != null) {
             	ch.processCommand(clientMsg);
             	
-            	
 			    String rev = new StringBuilder(clientMsg).reverse().toString();
                 System.out.println("received '" + clientMsg + "' from client");
                 System.out.print("sending '" + rev + "' to client...");
