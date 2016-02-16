@@ -11,4 +11,8 @@ public class Record {
 		this.patient = patient;
 		recordEntries = new ArrayList<RecordEntry>();
 	}
+	
+	public Patient getPatient() {
+		return patient;
+	}
 }
