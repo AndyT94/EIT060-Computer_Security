@@ -31,7 +31,7 @@ import javax.security.cert.X509Certificate;
  */
 public class client {
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		String host = null;
 		int port = -1;
 		for (int i = 0; i < args.length; i++) {
