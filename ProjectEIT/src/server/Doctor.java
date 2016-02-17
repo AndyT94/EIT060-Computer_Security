@@ -1,14 +1,10 @@
 package server;
 
 public class Doctor extends User {
-	private String username;
-	private String realName;
 	private String division;
 	
-	public Doctor(String username, String realName, String division) {
-		super(realName);
-		this.username = username;
-		this.division = division;
+	public Doctor(String username, String realName) {
+		super(username, realName);
 	}
 
 	public String getDivision() {

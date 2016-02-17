@@ -2,7 +2,7 @@ package server;
 
 public class Government extends User {
 
-	protected Government(String realName) {
-		super(realName);
+	protected Government(String username, String realName) {
+		super(username, realName);
 	}
 }
