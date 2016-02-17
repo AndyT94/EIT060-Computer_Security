@@ -22,6 +22,12 @@ public class Capabilities {
 		load();
 	}
 	
+	
+	
+	
+	
+	
+	
 	private void load() {
 		//TODO FIX THIS LOAD SHIT!!!!
 		BufferedReader in = null;
