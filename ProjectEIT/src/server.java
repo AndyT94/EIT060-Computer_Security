@@ -7,8 +7,6 @@ import javax.net.*;
 import javax.net.ssl.*;
 import javax.security.cert.X509Certificate;
 
-import server.CommandHandler;
-
 public class server implements Runnable {
     private ServerSocket serverSocket = null;
     private static int numConnectedClients = 0;
@@ -39,12 +37,9 @@ public class server implements Runnable {
             BufferedReader in = null;
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-            CommandHandler ch = new CommandHandler(subject, out, in);
             
             String clientMsg = null;
             while ((clientMsg = in.readLine()) != null) {
-            	ch.processCommand(clientMsg);
             	
 			    String rev = new StringBuilder(clientMsg).reverse().toString();
                 System.out.println("received '" + clientMsg + "' from client");
