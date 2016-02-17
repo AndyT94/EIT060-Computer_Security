@@ -24,4 +24,11 @@ public abstract class User {
 	public void setRealName(String realName) {
 		this.realName = realName;
 	}
+	
+	public abstract String getDivision();
+	public abstract boolean hasReadRights();
+	public abstract boolean hasWriteRights();
+	public abstract boolean hasDeleteRights();
+	public abstract boolean hasAddRights();
+	
 }

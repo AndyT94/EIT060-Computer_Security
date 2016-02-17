@@ -15,99 +15,99 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class Capabilities {
-	private Map<User, Record> recordList;
-	private Map<User, Map<Record, ArrayList<String>>> cap;
-	
-	public Capabilities() {
-		cap = new HashMap<User, Map<Record, ArrayList<String>>>();
-		recordList = new HashMap<User, Record>();
-	//	load();
+	private Map<User, Map<Record, ArrayList<String>>> capability;
+
+	public Capabilities(String filename) {
+		capability = new HashMap<User, Map<Record, ArrayList<String>>>();
+		load(filename);
 	}
-	
+
 	public ArrayList<String> getAccessRights(String username, String record) {
 		User u = getUser(username);
-		if(u != null) {
-			return cap.get(u).get(recordList.get(u));
-		} else {
-			throw new IllegalArgumentException("Invalid user");
-		}
-	}
-	
-	public Record getRecord(String userRecord) {
-		User u = getUser(userRecord);
-		if(u != null) {
-			return recordList.get(u);
+		if (u != null) {
+			return capability.get(u).get(getRecord(username));
 		} else {
 			throw new IllegalArgumentException("Invalid user");
 		}
 	}
 
+	public Record getRecord(String user) {
+		User u = getUser(user);
+		if (u != null) {
+			for (Record r : capability.get(u).keySet()) {
+				if (r.hasPatient(u)) {
+					return r;
+				}
+			}
+		}
+		throw new IllegalArgumentException("Invalid user");
+	}
+
 	public void addRights(User user, Record r, List<String> list) {
-		recordList.put(user, r);
+		// TODO USE?
 	}
-	
+
 	public void addRecord(String username, Record r) {
+		// TODO USE?
 	}
-	
-	private User getUser(String userRecord) {
-		for(User u: recordList.keySet()) {
-			if(u.getUsername().equals(userRecord)) {
+
+	private User getUser(String user) {
+		for (User u : capability.keySet()) {
+			if (u.getUsername().equals(user)) {
 				return u;
 			}
 		}
 		return null;
 	}
-	
-	
-	private void load() {
-		//TODO FIX THIS LOAD SHIT!!!!
+
+	private void load(String filename) {
 		BufferedReader in = null;
 		try {
-			in = new BufferedReader(new FileReader("server/data/datafile"));
+			in = new BufferedReader(new FileReader(filename));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 		String line = null;
 		JSONParser parser = new JSONParser();
-		List<Record> temp = new ArrayList<Record>();
 		try {
-			while((line = in.readLine()) != null ) {
+			while ((line = in.readLine()) != null) {
 				JSONObject obj = (JSONObject) parser.parse(line);
 				String role = (String) obj.get("role");
 				String username = (String) obj.get("username");
 				String realName = (String) obj.get("realname");
-				
-				if(role.equals("patient")) {
-					cap.put(new Patient(username, realName), new HashMap<Record, ArrayList<String>>());
-					JSONArray array = (JSONArray) obj.get("record");
-					for(int i = 0; i < array.size(); i++) {
-						JSONObject r = (JSONObject) array.get(i);
-						String nurse = (String) r.get("nurse");
-						String doc = (String) r.get("doctor");
-						String div = (String) r.get("division");
-						String note = (String) r.get("notes");
-						
+
+				HashMap<Record, ArrayList<String>> cap = new HashMap<Record, ArrayList<String>>();
+				JSONArray access = (JSONArray) obj.get("cap");
+				for (int i = 0; i < access.size(); i++) {
+					JSONObject recordAccess = (JSONObject) access.get(i);
+					Record r = getRecord((String) recordAccess.get("username"));
+					String[] rights = ((String) recordAccess.get("rights")).split(",");
+					ArrayList<String> right = new ArrayList<String>();
+					for (int j = 0; j < rights.length; j++) {
+						right.add(rights[i]);
 					}
+					cap.put(r, right);
+				}
+
+				if (role.equals("patient")) {
+					Patient p = new Patient(username, realName);
+					capability.put(p, cap);
 				} else if (role.equals("nurse")) {
-					Nurse nurse = new Nurse(username, realName);
-					cap.put(nurse, new HashMap<Record, ArrayList<String>>());
-					nurse.setDivision((String) obj.get("division"));
+					Nurse n = new Nurse(username, realName);
+					capability.put(n, cap);
+					n.setDivision((String) obj.get("division"));
 				} else if (role.equals("doctor")) {
 					Doctor doc = new Doctor(username, realName);
-					cap.put(doc, new HashMap<Record, ArrayList<String>>());
+					capability.put(doc, cap);
 					doc.setDivision((String) obj.get("division"));
 				} else {
-					cap.put(new Government(username, realName), new HashMap<Record, ArrayList<String>>());
+					Government gov = new Government(username, realName);
+					capability.put(gov, cap);
 				}
 			}
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
-		updateAccess(temp);
-	}
-	
-	private void updateAccess(List<Record> temp) {
-		
 	}
 }

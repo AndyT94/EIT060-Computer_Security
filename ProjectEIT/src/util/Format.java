@@ -29,7 +29,7 @@ public class Format {
 		return obj.toJSONString();
 	}
 
-	public static Command decode(String msg) throws ParseException, IllegalArgumentException {
+	public static Command decode(String msg) throws ParseException {
 		JSONParser parser = new JSONParser();
 		JSONObject obj = (JSONObject) parser.parse(msg);
 		String command = (String) obj.get("command");
