@@ -15,6 +15,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class Capabilities {
+	Map<String, Record> recordList1;
+	Map<String, Map<Record, ArrayList<String>>> cap1;
 	private Map<User, Record> recordList;
 	private Map<User, Map<Record, ArrayList<String>>> cap;
 	
@@ -32,6 +34,14 @@ public class Capabilities {
 	public Record getRecord(String userRecord) {
 		return recordList.get(userRecord);
 	}
+	
+	public void addRights(User user, Record r, List<String> list) {
+		recordList.put(user, r);
+	}
+	
+	public void addRecord(String username, Record r) {
+	}
+	
 	
 	
 	
