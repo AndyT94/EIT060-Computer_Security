@@ -1,1 +1,3 @@
-{"username":"doctor1", "role":"doctor", "realname":"Doctor D", "division":"bamse"}
+{"username":"9001010001", "role":"doctor", "realname":"Doctor A", "division":"A"}
+{"username":"9001020002", "role":"doctor", "realname":"Doctor B", "division":"B"}
+{"username":"9001030003", "role":"doctor", "realname":"Doctor C", "division":"A"}
