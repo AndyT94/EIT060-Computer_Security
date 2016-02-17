@@ -21,6 +21,8 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 import javax.security.cert.X509Certificate;
 
+import util.Format;
+
 /*
  * This example shows how to set up a key manager to perform client
  * authentication.
@@ -88,6 +90,9 @@ public class client {
 				if (msg.equalsIgnoreCase("quit")) {
 					break;
 				}
+				
+				msg = Format.encode(msg);
+				
 				System.out.print("sending '" + msg + "' to server...");
 				out.println(msg);
 				out.flush();

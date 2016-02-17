@@ -6,8 +6,8 @@ public class Doctor extends User {
 	private String division;
 	
 	public Doctor(String username, String realName, String division) {
+		super(realName);
 		this.username = username;
-		this.realName = realName;
 		this.division = division;
 	}
 
