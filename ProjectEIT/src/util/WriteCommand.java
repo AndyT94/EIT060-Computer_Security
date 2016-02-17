@@ -14,5 +14,28 @@ public class WriteCommand implements Command {
 		this.division = division;
 		this.notes = notes;
 	}
+	
+	public String getFileName() {
+		return fileName;
+	}
 
+	public String getDoctor() {
+		return doctor;
+	}
+
+	public String getNurse() {
+		return nurse;
+	}
+
+	public String getDivision() {
+		return division;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
 }

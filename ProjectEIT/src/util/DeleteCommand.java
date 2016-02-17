@@ -6,5 +6,8 @@ public class DeleteCommand implements Command {
 	public DeleteCommand(String fileName) {
 		this.fileName = fileName;
 	}
-	
+
+	public String getFileName() {
+		return fileName;
+	}
 }

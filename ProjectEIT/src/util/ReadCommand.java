@@ -6,5 +6,8 @@ public class ReadCommand implements Command {
 	public ReadCommand(String fileName) {
 		this.fileName = fileName;
 	}
-	
+
+	public String getFileName() {
+		return fileName;
+	}
 }
