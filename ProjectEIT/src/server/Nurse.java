@@ -14,20 +14,4 @@ public class Nurse extends User {
 	public void setDivision(String newDivision) {
 		division = newDivision;
 	}
-
-	public String getRealName() {
-		return realName;
-	}
-
-	public void setRealName(String newRealName) {
-		realName = newRealName;
-	}
-
-	public String getUserName() {
-		return username;
-	}
-
-	public void setUserName(String newUsername) {
-		username = newUsername;
-	}
 }
