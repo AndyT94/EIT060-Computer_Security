@@ -8,17 +8,11 @@ import server.ResourceMonitor;
 
 public class testResourceMonitor {
 	private ResourceMonitor rm;
+	private Capabilities cap;
 	
 	@Before
 	public void setUp() {
-		Capabilities cap = new Capabilities();
-		cap.
+		cap = new Capabilities();
 		rm = new ResourceMonitor();
 	}
-	
-	@Test
-	public void readAccess() {
-		
-	}
-	
 }

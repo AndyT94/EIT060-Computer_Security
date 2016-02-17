@@ -15,26 +15,33 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class Capabilities {
-	Map<String, Record> recordList1;
-	Map<String, Map<Record, ArrayList<String>>> cap1;
 	private Map<User, Record> recordList;
 	private Map<User, Map<Record, ArrayList<String>>> cap;
-	
 	
 	public Capabilities() {
 		cap = new HashMap<User, Map<Record, ArrayList<String>>>();
 		recordList = new HashMap<User, Record>();
-		load();
+	//	load();
 	}
 	
 	public ArrayList<String> getAccessRights(String username, String record) {
-		return cap.get(username).get(record);
+		User u = getUser(username);
+		if(u != null) {
+			return cap.get(u).get(recordList.get(u));
+		} else {
+			throw new IllegalArgumentException("Invalid user");
+		}
 	}
 	
 	public Record getRecord(String userRecord) {
-		return recordList.get(userRecord);
+		User u = getUser(userRecord);
+		if(u != null) {
+			return recordList.get(u);
+		} else {
+			throw new IllegalArgumentException("Invalid user");
+		}
 	}
-	
+
 	public void addRights(User user, Record r, List<String> list) {
 		recordList.put(user, r);
 	}
@@ -42,7 +49,14 @@ public class Capabilities {
 	public void addRecord(String username, Record r) {
 	}
 	
-	
+	private User getUser(String userRecord) {
+		for(User u: recordList.keySet()) {
+			if(u.getUsername().equals(userRecord)) {
+				return u;
+			}
+		}
+		return null;
+	}
 	
 	
 	private void load() {

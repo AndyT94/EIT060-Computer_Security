@@ -26,7 +26,7 @@ public class testRecord {
 	@Test
 	public void testPrintOneEntry() {
 		r.addEntry(new Nurse("1", "Q"), new Doctor("2", "W"), "A", "feber");
-		assertEquals("Patient: Alice\n\nRecord: 1\nDoctor: W\nNurse: Q\nDivision: A\nNotes: feber\n", r.toString());
+		assertEquals("Patient: Alice\n\nEntry: 1\nDoctor: W\nNurse: Q\nDivision: A\nNotes: feber\n", r.toString());
 	}
 
 	@Test
@@ -34,7 +34,7 @@ public class testRecord {
 		r.addEntry(new Nurse("1", "Q"), new Doctor("2", "W"), "A", "feber");
 		r.addEntry(new Nurse("4", "E"), new Doctor("5", "R"), "B", "förkylning");
 		assertEquals(
-				"Patient: Alice\n\nRecord: 1\nDoctor: W\nNurse: Q\nDivision: A\nNotes: feber\n\nRecord: 2\nDoctor: R\nNurse: E\nDivision: B\nNotes: förkylning\n",
+				"Patient: Alice\n\nEntry: 1\nDoctor: W\nNurse: Q\nDivision: A\nNotes: feber\n\nEntry: 2\nDoctor: R\nNurse: E\nDivision: B\nNotes: förkylning\n",
 				r.toString());
 	}
 }
