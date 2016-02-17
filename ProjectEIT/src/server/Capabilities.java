@@ -73,8 +73,4 @@ public class Capabilities {
 	private void updateAccess(List<Record> temp) {
 		
 	}
-
-	public static void main(String[] args) {
-		new Capabilities();
-	}
 }

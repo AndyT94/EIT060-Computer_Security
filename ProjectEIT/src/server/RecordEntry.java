@@ -17,15 +17,31 @@ public class RecordEntry {
 		nurse = newNurse;
 	}
 	
+	public Nurse getNurse() {
+		return nurse;
+	}
+	
 	public void setDoctor(Doctor newDoctor) {
 		doctor = newDoctor;
+	}
+	
+	public Doctor getDoctor() {
+		return doctor;
 	}
 	
 	public void setDivision(String newDivision) {
 		division = newDivision;
 	}
 	
+	public String getDivision() {
+		return division;
+	}
+	
 	public void setNotes(String newNotes) {
 		notes = newNotes;
+	}
+	
+	public String getNotes() {
+		return notes;
 	}
 }
