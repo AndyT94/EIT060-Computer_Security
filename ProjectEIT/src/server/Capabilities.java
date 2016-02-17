@@ -15,16 +15,23 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class Capabilities {
+	private Map<User, Record> recordList;
 	private Map<User, Map<Record, ArrayList<String>>> cap;
+	
 	
 	public Capabilities() {
 		cap = new HashMap<User, Map<Record, ArrayList<String>>>();
+		recordList = new HashMap<User, Record>();
 		load();
 	}
 	
+	public ArrayList<String> getAccessRights(String username, String record) {
+		return cap.get(username).get(record);
+	}
 	
-	
-	
+	public Record getRecord(String userRecord) {
+		return recordList.get(userRecord);
+	}
 	
 	
 	

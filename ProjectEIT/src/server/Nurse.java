@@ -3,7 +3,7 @@ package server;
 public class Nurse extends User {
 	private String division;
 	
-	protected Nurse(String username, String realName) {
+	public Nurse(String username, String realName) {
 		super(username, realName);
 		}
 
@@ -14,4 +14,5 @@ public class Nurse extends User {
 	public void setDivision(String newDivision) {
 		division = newDivision;
 	}
+	
 }

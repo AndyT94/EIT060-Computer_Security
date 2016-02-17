@@ -62,7 +62,7 @@ public class server implements Runnable {
 				while ((clientMsg = in.readLine()) != null) {
 
 					Command cmd = Format.decode(clientMsg);
-					rm.tryAccess(subject, cmd);
+					String result = rm.tryAccess(subject, cmd);
 					
 					String rev = new StringBuilder(clientMsg).reverse().toString();
 					System.out.println("received '" + clientMsg + "' from client");
