@@ -78,17 +78,17 @@ public class Capabilities {
 				String realName = (String) obj.get("realname");
 
 				HashMap<Record, ArrayList<String>> cap = new HashMap<Record, ArrayList<String>>();
-				JSONArray access = (JSONArray) obj.get("cap");
-				for (int i = 0; i < access.size(); i++) {
-					JSONObject recordAccess = (JSONObject) access.get(i);
-					Record r = getRecord((String) recordAccess.get("username"));
-					String[] rights = ((String) recordAccess.get("rights")).split(",");
-					ArrayList<String> right = new ArrayList<String>();
-					for (int j = 0; j < rights.length; j++) {
-						right.add(rights[i]);
-					}
-					cap.put(r, right);
-				}
+//				JSONArray access = (JSONArray) obj.get("cap");
+//				for (int i = 0; i < access.size(); i++) {
+//					JSONObject recordAccess = (JSONObject) access.get(i);
+//					Record r = getRecord((String) recordAccess.get("username"));
+//					String[] rights = ((String) recordAccess.get("rights")).split(",");
+//					ArrayList<String> right = new ArrayList<String>();
+//					for (int j = 0; j < rights.length; j++) {
+//						right.add(rights[i]);
+//					}
+//					cap.put(r, right);
+//				}
 
 				if (role.equals("patient")) {
 					Patient p = new Patient(username, realName);
