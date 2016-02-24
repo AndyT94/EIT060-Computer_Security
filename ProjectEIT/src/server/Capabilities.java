@@ -25,7 +25,7 @@ public class Capabilities {
 	public ArrayList<String> getAccessRights(String username, String record) {
 		User u = getUser(username);
 		if (u != null) {
-			return capability.get(u).get(getRecord(username));
+			return capability.get(u).get(getRecord(record));
 		}
 		return null;
 	}
@@ -85,7 +85,7 @@ public class Capabilities {
 				String realName = (String) obj.get("realname");
 
 				caps.put(username, (JSONArray) obj.get("cap"));
-
+				
 				if (role.equals("patient")) {
 					Patient p = new Patient(username, realName);
 					records.put(p, (JSONArray) obj.get("record"));
