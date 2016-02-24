@@ -45,6 +45,7 @@ public class server implements Runnable {
 			String issuer = cert.getIssuerDN().getName();
 			BigInteger serialNbr = cert.getSerialNumber();
 			numConnectedClients++;
+
 			System.out.println("client connected");
 
 			System.out.println("Issuer: " + issuer);
