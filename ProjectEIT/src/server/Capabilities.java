@@ -20,7 +20,6 @@ public class Capabilities {
 	public Capabilities(String filename) {
 		capability = new HashMap<User, Map<Record, ArrayList<String>>>();
 		load(filename);
-		int i = 0;
 	}
 
 	public ArrayList<String> getAccessRights(String username, String record) {
