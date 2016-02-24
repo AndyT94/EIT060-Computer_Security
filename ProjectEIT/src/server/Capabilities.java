@@ -43,7 +43,7 @@ public class Capabilities {
 	}
 
 	public void deleteRecord(String record) {
-		
+
 	}
 
 	public void addRights(User user, Record r, List<String> list) {
@@ -52,7 +52,7 @@ public class Capabilities {
 
 	public void addRecord(String username, Record r) {
 		User u = getUser(username);
-		
+
 	}
 
 	private User getUser(String user) {
@@ -61,6 +61,21 @@ public class Capabilities {
 				return u;
 			}
 		}
+		return null;
+	}
+
+	public String getAllReadRecords(String username) {
+		User u = getUser(username);
+		if (u != null) {
+			StringBuilder sb = new StringBuilder();
+			Map<Record, ArrayList<String>> records = capability.get(u);
+			for(Record r : records.keySet()) {
+				if(records.get(r).contains("read")) {
+					sb.append(r.getPatient().getUsername() + " ");
+				}
+			}
+			return sb.toString();
+		} 
 		return null;
 	}
 
@@ -85,7 +100,7 @@ public class Capabilities {
 				String realName = (String) obj.get("realname");
 
 				caps.put(username, (JSONArray) obj.get("cap"));
-				
+
 				if (role.equals("patient")) {
 					Patient p = new Patient(username, realName);
 					records.put(p, (JSONArray) obj.get("record"));

@@ -28,7 +28,7 @@ public class ResourceMonitor {
 		} else if (cmd.getClass().equals(WriteCommand.class)) {
 			
 		} else if (cmd.getClass().equals(ListCommand.class)) {
-			
+			return cap.getAllReadRecords(username);
 		} else if (cmd.getClass().equals(DeleteCommand.class)) {
 			DeleteCommand dc = (DeleteCommand) cmd;
 			String userRecord = dc.getFileName();
