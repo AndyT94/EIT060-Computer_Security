@@ -48,7 +48,7 @@ public class Format {
 			String nurse = (String) obj.get("nurse");
 			String division = (String) obj.get("division");
 			String notes = (String) obj.get("note");
-			if(!fileName.isEmpty()) {
+			if(fileName != null && !fileName.isEmpty()) {
 				return new EditCommand(fileName, doctor, nurse, division, notes);
 			} else {
 				return new NoCommand();
@@ -60,7 +60,7 @@ public class Format {
 			String nurse = (String) obj.get("nurse");
 			String division = (String) obj.get("division");
 			String notes = (String) obj.get("note");
-			if(!fileName.isEmpty()) {
+			if(fileName != null && !fileName.isEmpty()) {
 				return new WriteCommand(fileName, doctor, nurse, division, notes);
 			} else {
 				return new NoCommand();
@@ -71,7 +71,7 @@ public class Format {
 			
 		} else if (command.equals("delete")) {
 			String fileName = (String) obj.get("file");
-			if(!fileName.isEmpty()) {
+			if(fileName != null && !fileName.isEmpty()) {
 				return new DeleteCommand(fileName);
 			} else {
 				return new NoCommand();
