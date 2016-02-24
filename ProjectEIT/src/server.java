@@ -38,6 +38,7 @@ public class server implements Runnable {
 	public void run() {
 		try {
 			SSLSocket socket = (SSLSocket) serverSocket.accept();
+
 			newListener();
 			SSLSession session = socket.getSession();
 			X509Certificate cert = (X509Certificate) session.getPeerCertificateChain()[0];
@@ -45,7 +46,7 @@ public class server implements Runnable {
 			String issuer = cert.getIssuerDN().getName();
 			BigInteger serialNbr = cert.getSerialNumber();
 			numConnectedClients++;
-
+			
 			System.out.println("client connected");
 
 			System.out.println("Issuer: " + issuer);
