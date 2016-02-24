@@ -2,8 +2,7 @@ package server;
 
 import java.util.ArrayList;
 
-import util.Command;
-import util.ReadCommand;
+import util.*;
 
 public class ResourceMonitor {
 	private Capabilities cap;
@@ -21,12 +20,29 @@ public class ResourceMonitor {
 			ReadCommand rc = (ReadCommand) cmd;
 			String userRecord = rc.getFileName();
 			ArrayList<String> rights = cap.getAccessRights(username, userRecord);
-			if (rights.contains("read")) {
+			if (rights != null && rights.contains("read")) {
 				return cap.getRecord(userRecord).toString();
 			} else {
 				return "Access Denied!";
-			} 
+			}
+		} else if (cmd.getClass().equals(WriteCommand.class)) {
+			
+		} else if (cmd.getClass().equals(ListCommand.class)) {
+			
+		} else if (cmd.getClass().equals(DeleteCommand.class)) {
+			DeleteCommand dc = (DeleteCommand) cmd;
+			String userRecord = dc.getFileName();
+			ArrayList<String> rights = cap.getAccessRights(username, userRecord);
+			if(rights.contains("delete")) {
+				cap.deleteRecord(userRecord);
+				return "Deleted record " + userRecord;
+			} else {
+				return "Access Denied!";
+			}
+		} else if(cmd.getClass().equals(EditCommand.class)) {
+			
+
 		}
-		return null;
+		return "Invalid command or option(s)";
 	}
 }
