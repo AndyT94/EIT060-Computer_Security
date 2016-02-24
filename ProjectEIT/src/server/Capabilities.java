@@ -42,8 +42,15 @@ public class Capabilities {
 		return null;
 	}
 
-	public void deleteRecord(String record) {
-
+	public void deleteRecord(String patient) {
+		for(User u: capability.keySet()) {	
+			for(Record r: capability.get(u).keySet()) {
+				if(r.getPatient().getUsername().equals(patient)) {
+					capability.get(u).remove(r);
+					break;
+				}
+			}
+		}
 	}
 
 	public void addRights(User user, Record r, List<String> list) {
