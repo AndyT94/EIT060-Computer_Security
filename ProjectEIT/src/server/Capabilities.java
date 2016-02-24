@@ -48,7 +48,8 @@ public class Capabilities {
 	}
 
 	public void addRecord(String username, Record r) {
-		// TODO USE?
+		User u = getUser(username);
+		
 	}
 
 	private User getUser(String user) {
