@@ -25,7 +25,7 @@ public class ResourceMonitor {
 				return cap.getRecord(userRecord).toString();
 			} else {
 				return "Access Denied!";
-			}
+			} 
 		}
 		return null;
 	}

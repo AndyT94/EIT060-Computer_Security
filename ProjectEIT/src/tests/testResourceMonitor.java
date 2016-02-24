@@ -12,7 +12,7 @@ public class testResourceMonitor {
 	
 	@Before
 	public void setUp() {
-		cap = new Capabilities();
+		cap = new Capabilities(null);
 		rm = new ResourceMonitor();
 	}
 }
