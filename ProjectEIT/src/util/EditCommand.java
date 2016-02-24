@@ -6,13 +6,15 @@ public class EditCommand implements Command {
 	private String nurse;
 	private String division;
 	private String notes;
+	private Integer entryNbr;
 	
-	public EditCommand(String fileName, String doctor, String nurse, String division, String notes) {
+	public EditCommand(String fileName, String doctor, String nurse, String division, String notes, Integer entryNbr) {
 		this.fileName = fileName;
 		this.nurse = nurse;
 		this.doctor = doctor;
 		this.division = division;
 		this.notes = notes;
+		this.entryNbr = entryNbr;
 	}
 
 	public String getFileName() {
@@ -35,7 +37,7 @@ public class EditCommand implements Command {
 		return notes;
 	}
 
-	public void setNotes(String notes) {
-		this.notes = notes;
+	public Integer getEntryNbr() {
+		return entryNbr;
 	}
 }
