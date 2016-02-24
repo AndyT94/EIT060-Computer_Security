@@ -20,6 +20,7 @@ public class Capabilities {
 	public Capabilities(String filename) {
 		capability = new HashMap<User, Map<Record, ArrayList<String>>>();
 		load(filename);
+		int i = 0;
 	}
 
 	public ArrayList<String> getAccessRights(String username, String record) {
@@ -70,20 +71,21 @@ public class Capabilities {
 
 		String line = null;
 		JSONParser parser = new JSONParser();
-		ArrayList<JSONArray> caps = new ArrayList<JSONArray>();
-		HashMap<Record, ArrayList<String>> cap = new HashMap<Record, ArrayList<String>>();
+		HashMap<String, JSONArray> caps = new HashMap<String, JSONArray>();
+		HashMap<Patient, JSONArray> records = new HashMap<Patient, JSONArray>();
 		try {
 			while ((line = in.readLine()) != null) {
 				JSONObject obj = (JSONObject) parser.parse(line);
+				HashMap<Record, ArrayList<String>> cap = new HashMap<Record, ArrayList<String>>();
 				String role = (String) obj.get("role");
 				String username = (String) obj.get("username");
 				String realName = (String) obj.get("realname");
 
-				caps.add((JSONArray) obj.get("cap"));
+				caps.put(username, (JSONArray) obj.get("cap"));
 
 				if (role.equals("patient")) {
 					Patient p = new Patient(username, realName);
-					//READ RECORD!!!!!!!
+					records.put(p, (JSONArray) obj.get("record"));
 					capability.put(p, cap);
 				} else if (role.equals("nurse")) {
 					Nurse n = new Nurse(username, realName);
@@ -101,18 +103,34 @@ public class Capabilities {
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
-//		for(int i = 0; i < caps.size(); i++) {
-//			JSONArray jsonarray = caps.get(i);
-//			for(int j = 0; j < jsonarray.size(); j++) {
-//				JSONObject recordAccess = (JSONObject) jsonarray.get(j);
-//				Record r = getRecord((String) recordAccess.get("username"));
-//				String[] rights = ((String) recordAccess.get("rights")).split(",");
-//				ArrayList<String> rightsList = new ArrayList<String>();
-//				for (int k = 0; k < rights.length; k++) {
-//					rightsList.add(rights[k]);
-//				}
-//				cap.put(r, rightsList);
-//			}
-//		}
+
+		for (Patient p : records.keySet()) {
+			Record r = new Record(p);
+			JSONArray array = records.get(p);
+			for (int i = 0; i < array.size(); i++) {
+				JSONObject record = (JSONObject) array.get(i);
+				Nurse nurse = (Nurse) getUser((String) record.get("nurse"));
+				Doctor doctor = (Doctor) getUser((String) record.get("doctor"));
+				String division = (String) record.get("division");
+				String note = (String) record.get("note");
+				r.addEntry(nurse, doctor, division, note);
+			}
+			capability.get(p).put(r, new ArrayList<String>());
+		}
+
+		for (String s : caps.keySet()) {
+			User user = getUser(s);
+			JSONArray jsonarray = caps.get(s);
+			for (int j = 0; j < jsonarray.size(); j++) {
+				JSONObject recordAccess = (JSONObject) jsonarray.get(j);
+				Record r = getRecord((String) recordAccess.get("username"));
+				String[] rights = ((String) recordAccess.get("rights")).split(",");
+				ArrayList<String> rightsList = new ArrayList<String>();
+				for (int k = 0; k < rights.length; k++) {
+					rightsList.add(rights[k]);
+				}
+				capability.get(user).put(r, rightsList);
+			}
+		}
 	}
 }
