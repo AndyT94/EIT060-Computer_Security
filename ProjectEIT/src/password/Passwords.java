@@ -17,7 +17,7 @@ public class Passwords {
 	}
 
 	public static byte[] getNextSalt() {
-		byte[] salt = new byte[64];
+		byte[] salt = new byte[2];
 		RANDOM.nextBytes(salt);
 		return salt;
 	}

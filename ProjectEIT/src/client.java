@@ -118,6 +118,8 @@ public class client {
 		System.out.println("Enter password: ");
 		Console console = System.console();
 		char[] password = console.readPassword();
+		
+		
 
 		KeyStore ks = KeyStore.getInstance("JKS");
 		KeyStore ts = KeyStore.getInstance("JKS");
