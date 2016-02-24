@@ -32,24 +32,26 @@ import util.Format;
  * the firewall by following SSLSocketClientWithTunneling.java.
  */
 public class client {
-	
+	//TODO FIX BEFORE HAND-IN IMPORTANT
 	public static void main(String[] args) {
-		String host = null;
-		int port = -1;
-		for (int i = 0; i < args.length; i++) {
-			System.out.println("args[" + i + "] = " + args[i]);
-		}
-		if (args.length < 2) {
-			System.out.println("USAGE: java client host port");
-			System.exit(-1);
-		}
-		try { /* get input parameters */
-			host = args[0];
-			port = Integer.parseInt(args[1]);
-		} catch (IllegalArgumentException e) {
-			System.out.println("USAGE: java client host port");
-			System.exit(-1);
-		}
+		//String host = null;
+		//int port = -1;
+		String host = "localhost";
+		int port = 9870;
+//		for (int i = 0; i < args.length; i++) {
+//			System.out.println("args[" + i + "] = " + args[i]);
+//		}
+//		if (args.length < 2) {
+//			System.out.println("USAGE: java client host port");
+//			System.exit(-1);
+//		}
+//		try { /* get input parameters */
+//			host = args[0];
+//			port = Integer.parseInt(args[1]);
+//		} catch (IllegalArgumentException e) {
+//			System.out.println("USAGE: java client host port");
+//			System.exit(-1);
+//		}
 
 		try { /* set up a key manager for client authentication */
 			SSLSocketFactory factory = null;
@@ -116,18 +118,21 @@ public class client {
 		System.out.println("Enter username: ");
 		String username = scan.nextLine();
 		System.out.println("Enter password: ");
-		Console console = System.console();
-		char[] password = console.readPassword();
+
+		String pwd = scan.nextLine();
+		char[] password = pwd.toCharArray();
 		
-		
+//		Console console = System.console();
+//		char[] password = console.readPassword();
+
 
 		KeyStore ks = KeyStore.getInstance("JKS");
 		KeyStore ts = KeyStore.getInstance("JKS");
 		KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
 		TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
 		SSLContext ctx = SSLContext.getInstance("TLS");
-		String ksPath = "../client/users/" + username + "/" + username + "keystore";
-		String tsPath = "../client/users/" + username + "/" + username + "truststore";
+		String ksPath = "client/users/" + username + "/" + username + "keystore";
+		String tsPath = "client/users/" + username + "/" + username + "truststore";
 		ks.load(new FileInputStream(ksPath), password); // keystore
 														// password
 														// (storepass)

@@ -40,7 +40,7 @@ public class Capabilities {
 				}
 			}
 		}
-		throw new IllegalArgumentException("Invalid user");
+		return null;
 	}
 
 	public void addRights(User user, Record r, List<String> list) {
@@ -71,28 +71,21 @@ public class Capabilities {
 
 		String line = null;
 		JSONParser parser = new JSONParser();
+		HashMap<String, JSONArray> caps = new HashMap<String, JSONArray>();
+		HashMap<Patient, JSONArray> records = new HashMap<Patient, JSONArray>();
 		try {
 			while ((line = in.readLine()) != null) {
 				JSONObject obj = (JSONObject) parser.parse(line);
+				HashMap<Record, ArrayList<String>> cap = new HashMap<Record, ArrayList<String>>();
 				String role = (String) obj.get("role");
 				String username = (String) obj.get("username");
 				String realName = (String) obj.get("realname");
 
-				HashMap<Record, ArrayList<String>> cap = new HashMap<Record, ArrayList<String>>();
-				JSONArray access = (JSONArray) obj.get("cap");
-				for (int i = 0; i < access.size(); i++) {
-					JSONObject recordAccess = (JSONObject) access.get(i);
-					Record r = getRecord((String) recordAccess.get("username"));
-					String[] rights = ((String) recordAccess.get("rights")).split(",");
-					ArrayList<String> right = new ArrayList<String>();
-					for (int j = 0; j < rights.length; j++) {
-						right.add(rights[i]);
-					}
-					cap.put(r, right);
-				}
+				caps.put(username, (JSONArray) obj.get("cap"));
 
 				if (role.equals("patient")) {
 					Patient p = new Patient(username, realName);
+					records.put(p, (JSONArray) obj.get("record"));
 					capability.put(p, cap);
 				} else if (role.equals("nurse")) {
 					Nurse n = new Nurse(username, realName);
@@ -109,6 +102,35 @@ public class Capabilities {
 			}
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
+		}
+
+		for (Patient p : records.keySet()) {
+			Record r = new Record(p);
+			JSONArray array = records.get(p);
+			for (int i = 0; i < array.size(); i++) {
+				JSONObject record = (JSONObject) array.get(i);
+				Nurse nurse = (Nurse) getUser((String) record.get("nurse"));
+				Doctor doctor = (Doctor) getUser((String) record.get("doctor"));
+				String division = (String) record.get("division");
+				String note = (String) record.get("note");
+				r.addEntry(nurse, doctor, division, note);
+			}
+			capability.get(p).put(r, new ArrayList<String>());
+		}
+
+		for (String s : caps.keySet()) {
+			User user = getUser(s);
+			JSONArray jsonarray = caps.get(s);
+			for (int j = 0; j < jsonarray.size(); j++) {
+				JSONObject recordAccess = (JSONObject) jsonarray.get(j);
+				Record r = getRecord((String) recordAccess.get("username"));
+				String[] rights = ((String) recordAccess.get("rights")).split(",");
+				ArrayList<String> rightsList = new ArrayList<String>();
+				for (int k = 0; k < rights.length; k++) {
+					rightsList.add(rights[k]);
+				}
+				capability.get(user).put(r, rightsList);
+			}
 		}
 	}
 }

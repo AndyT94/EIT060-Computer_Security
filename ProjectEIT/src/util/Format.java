@@ -36,7 +36,7 @@ public class Format {
 		
 		if (command.equals("read")) {
 			String fileName = (String) obj.get("file");
-			if(!fileName.isEmpty()) {
+			if(!fileName.isEmpty() || fileName != null) {
 				return new ReadCommand(fileName);
 			} else {
 				throw new IllegalArgumentException("Invalid option");
