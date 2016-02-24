@@ -22,7 +22,7 @@ public class Format {
 				try {
 					obj.put(opt[0], opt[1]);
 				} catch (ArrayIndexOutOfBoundsException e) {
-					throw new IllegalArgumentException("Missing options");
+					return null;
 				}
 			}
 		}
@@ -36,10 +36,10 @@ public class Format {
 		
 		if (command.equals("read")) {
 			String fileName = (String) obj.get("file");
-			if(!fileName.isEmpty() || fileName != null) {
+			if(fileName != null && !fileName.isEmpty()) {
 				return new ReadCommand(fileName);
 			} else {
-				throw new IllegalArgumentException("Invalid option");
+				return new NoCommand();
 			}
 			
 		} else if (command.equals("edit")) {
@@ -51,7 +51,7 @@ public class Format {
 			if(!fileName.isEmpty()) {
 				return new EditCommand(fileName, doctor, nurse, division, notes);
 			} else {
-				throw new IllegalArgumentException("Invalid option");
+				return new NoCommand();
 			}
 			
 		} else if (command.equals("write")) {
@@ -63,7 +63,7 @@ public class Format {
 			if(!fileName.isEmpty()) {
 				return new WriteCommand(fileName, doctor, nurse, division, notes);
 			} else {
-				throw new IllegalArgumentException("Invalid option");
+				return new NoCommand();
 			}
 			
 		} else if (command.equals("list")) {
@@ -74,11 +74,11 @@ public class Format {
 			if(!fileName.isEmpty()) {
 				return new DeleteCommand(fileName);
 			} else {
-				throw new IllegalArgumentException("Invalid option");
+				return new NoCommand();
 			}
 			
 		} else {
-			throw new IllegalArgumentException("Not a valid command");
+			return new NoCommand();
 		}
 	}
 }

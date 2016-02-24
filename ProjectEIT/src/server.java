@@ -54,6 +54,8 @@ public class server implements Runnable {
 			System.out.println("Welcome " + subject);
 			System.out.println(numConnectedClients + " concurrent connection(s)\n");
 
+			subject = subject.substring(3, 13);
+			
 			PrintWriter out = null;
 			BufferedReader in = null;
 			out = new PrintWriter(socket.getOutputStream(), true);
@@ -62,16 +64,16 @@ public class server implements Runnable {
 			String clientMsg = null;
 			try {
 				while ((clientMsg = in.readLine()) != null) {
-
+					
 					Command cmd = Format.decode(clientMsg);
 					String result = rm.tryAccess(subject, cmd);
 					
-					String rev = new StringBuilder(clientMsg).reverse().toString();
+					//String rev = new StringBuilder(clientMsg).reverse().toString();
 					System.out.println("received '" + clientMsg + "' from client");
-					System.out.print("sending '" + rev + "' to client...");
-					out.println(rev);
+					System.out.print("sending '" + result + "' to client...");
+					out.println(result);
 					out.flush();
-					System.out.println("done\n");
+					//System.out.println("done\n");
 				}
 			} catch (IllegalArgumentException | ParseException e) {
 				// TODO Auto-generated catch block

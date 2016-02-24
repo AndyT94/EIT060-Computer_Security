@@ -26,12 +26,11 @@ public class Record {
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Patient: " + patient.getRealName() + "\n");
+		sb.append("Patient: " + patient.getRealName());
 		for (int i = 0; i < recordEntries.size(); i++) {
 			RecordEntry re = recordEntries.get(i);
-			sb.append("\nEntry: " + (i + 1) + "\nDoctor: " + re.getDoctor().getRealName() + "\nNurse: "
-					+ re.getNurse().getRealName() + "\nDivision: " + re.getDivision() + "\nNotes: " + re.getNotes()
-					+ "\n");
+			sb.append("\tEntry: " + (i + 1) + "\tDoctor: " + re.getDoctor().getRealName() + "\tNurse: "
+					+ re.getNurse().getRealName() + "\tDivision: " + re.getDivision() + "\tNotes: " + re.getNotes());
 		}
 		return sb.toString();
 	}

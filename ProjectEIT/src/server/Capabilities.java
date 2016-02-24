@@ -26,9 +26,8 @@ public class Capabilities {
 		User u = getUser(username);
 		if (u != null) {
 			return capability.get(u).get(getRecord(username));
-		} else {
-			throw new IllegalArgumentException("Invalid user");
 		}
+		return null;
 	}
 
 	public Record getRecord(String user) {
@@ -41,6 +40,10 @@ public class Capabilities {
 			}
 		}
 		return null;
+	}
+
+	public void deleteRecord(String record) {
+		
 	}
 
 	public void addRights(User user, Record r, List<String> list) {
@@ -132,4 +135,5 @@ public class Capabilities {
 			}
 		}
 	}
+
 }
