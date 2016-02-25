@@ -70,6 +70,25 @@ public class Capabilities {
 			return "Invalid doctor or nurse!";
 		}
 		r.addEntry(n, d, div, note);
+		for(User u: capability.keySet()) {
+			Map<Record, ArrayList<String>> rights = capability.get(u);
+			ArrayList<String> listOfRights = rights.get(r);
+			if(listOfRights == null) {
+				listOfRights = new ArrayList<String>();
+				rights.put(r, listOfRights);
+			}
+			if(u.getClass().equals(Government.class)) {
+				listOfRights.add("delete");
+				break;
+			}
+			if(r.hasPatient(getUser(u.getUsername())) || r.hasDivision(u.getDivision())) {
+				listOfRights.add("read");
+			}
+			if(r.hasDoctor(getUser(u.getUsername())) || r.hasNurse(getUser(u.getUsername()))) {
+				listOfRights.add("read");
+				listOfRights.add("write");
+			}
+		}
 		return "Record entry added to " + username;
 	}
 
