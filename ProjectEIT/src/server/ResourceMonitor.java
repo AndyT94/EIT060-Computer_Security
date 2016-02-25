@@ -28,6 +28,7 @@ public class ResourceMonitor {
 			
 		} else if (cmd.getClass().equals(WriteCommand.class)) {
 			
+			
 		} else if (cmd.getClass().equals(ListCommand.class)) {
 			return cap.getAllReadRecords(username);
 			
@@ -45,9 +46,17 @@ public class ResourceMonitor {
 		} else if(cmd.getClass().equals(EditCommand.class)) {
 			EditCommand ec = (EditCommand) cmd;
 			String userRecord = ec.getFileName();
-			
-			
-
+			ArrayList<String> rights = cap.getAccessRights(username, userRecord);
+			if(rights.contains("write")) {
+				String doctor = ec.getDoctor();
+				String nurse = ec.getNurse();
+				String div = ec.getDivision();
+				String note = ec.getNotes();
+				int entryNbr = ec.getEntryNbr();
+				cap.editRecord(userRecord, entryNbr, doctor, nurse, div, note);
+			} else {
+				return "Access Denied!";
+			}
 		}
 		return "Invalid command or option(s)";
 	}

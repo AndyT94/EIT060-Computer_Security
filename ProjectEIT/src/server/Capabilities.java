@@ -53,10 +53,6 @@ public class Capabilities {
 		}
 	}
 
-	public void addRights(User user, Record r, List<String> list) {
-		// TODO USE?
-	}
-
 	public void addRecord(String username, Record r) {
 		User u = getUser(username);
 
@@ -85,7 +81,11 @@ public class Capabilities {
 		} 
 		return null;
 	}
-
+	
+	public void editRecord(String record, int entryNbr, String doctor, String nurse, String div, String note) {
+		
+	}
+	
 	private void load(String filename) {
 		BufferedReader in = null;
 		try {
@@ -158,5 +158,4 @@ public class Capabilities {
 			}
 		}
 	}
-
 }
