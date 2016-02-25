@@ -53,12 +53,27 @@ public class Capabilities {
 		}
 	}
 
-	public void addRecord(String username, Record r) {
-		User u = getUser(username);
-
+	public String addRecord(String username, String doctor, String nurse, String div, String note) {
+		if(doctor == null || nurse == null || div == null || note == null) {
+			return "Missing mandatory options! (file:VALUE doctor:VALUE nurse:VALUE division:VALUE note:VALUE)";
+		}
+		if(getUser(username) == null) {
+			return "Invalid patient!";
+		}
+		Record r = getRecord(username);
+		if(r == null) {
+			r = new Record((Patient) getUser(username));
+		}
+		Nurse n = (Nurse) getUser(nurse);
+		Doctor d = (Doctor) getUser(doctor);
+		if(n == null || d == null) {
+			return "Invalid doctor or nurse!";
+		}
+		r.addEntry(n, d, div, note);
+		return "Record entry added to " + username;
 	}
 
-	private User getUser(String user) {
+	public User getUser(String user) {
 		for (User u : capability.keySet()) {
 			if (u.getUsername().equals(user)) {
 				return u;

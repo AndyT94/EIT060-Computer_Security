@@ -55,7 +55,7 @@ public class Format {
 				return new NoCommand();
 			}
 			
-		} else if (command.equals("write")) {
+		} else if (command.equals("add")) {
 			String fileName = (String) obj.get("file");
 			String doctor = (String) obj.get("doctor");
 			String nurse = (String) obj.get("nurse");
