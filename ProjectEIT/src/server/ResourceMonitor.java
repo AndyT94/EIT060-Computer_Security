@@ -26,7 +26,7 @@ public class ResourceMonitor {
 				return "Access Denied!";
 			}
 			
-		} else if (cmd.getClass().equals(WriteCommand.class)) {
+		} else if (cmd.getClass().equals(AddCommand.class)) {
 			
 			
 		} else if (cmd.getClass().equals(ListCommand.class)) {

@@ -1,13 +1,13 @@
           package util;
 
-public class WriteCommand implements Command {
+public class AddCommand implements Command {
 	private String fileName;
 	private String doctor;
 	private String nurse;
 	private String division;
 	private String notes;
 	
-	public WriteCommand(String fileName, String doctor, String nurse, String division, String notes) {
+	public AddCommand(String fileName, String doctor, String nurse, String division, String notes) {
 		this.fileName = fileName;
 		this.nurse = nurse;
 		this.doctor = doctor;

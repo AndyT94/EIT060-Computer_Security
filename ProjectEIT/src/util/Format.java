@@ -62,7 +62,7 @@ public class Format {
 			String division = (String) obj.get("division");
 			String notes = (String) obj.get("note");
 			if(fileName != null && !fileName.isEmpty()) {
-				return new WriteCommand(fileName, doctor, nurse, division, notes);
+				return new AddCommand(fileName, doctor, nurse, division, notes);
 			} else {
 				return new NoCommand();
 			}
