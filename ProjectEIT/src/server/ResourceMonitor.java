@@ -27,7 +27,12 @@ public class ResourceMonitor {
 			}
 			
 		} else if (cmd.getClass().equals(AddCommand.class)) {
-			
+			AddCommand ac = (AddCommand) cmd;
+			String userRecord = ac.getFileName();
+			ArrayList<String> rights = cap.getAccessRights(username, userRecord);
+			if(rights.contains("write") || ) {
+				
+			}
 			
 		} else if (cmd.getClass().equals(ListCommand.class)) {
 			return cap.getAllReadRecords(username);

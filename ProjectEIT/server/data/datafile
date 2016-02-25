@@ -1,6 +1,6 @@
-{"username":"9001010001", "role":"doctor", "realname":"Doctor A", "division":"A", "cap":[{"username":"9201010201", "rights":"read,write"}]}
-{"username":"9001020002", "role":"doctor", "realname":"Doctor B", "division":"B", "cap":[]}
-{"username":"9001030003", "role":"doctor", "realname":"Doctor C", "division":"A", "cap":[]}
+{"username":"9001010001", "role":"doctor", "realname":"Doctor A", "division":"A", "cap":[{"username":"9201010201", "rights":"read,write"}, {"username":"9201010202", "rights":"write"}, {"username":"9201010203", "rights":"write"}]}
+{"username":"9001020002", "role":"doctor", "realname":"Doctor B", "division":"B", "cap":[{"username":"9201010201", "rights":"write"}, {"username":"9201010202", "rights":"write"}, {"username":"9201010203", "rights":"write"}]}
+{"username":"9001030003", "role":"doctor", "realname":"Doctor C", "division":"A", "cap":[{"username":"9201010201", "rights":"write"}, {"username":"9201010202", "rights":"write"}, {"username":"9201010203", "rights":"write"}]}
 {"username":"9101010101", "role":"nurse", "realname":"Nurse A", "division":"A", "cap":[{"username":"9201010201", "rights":"read,write"}]}
 {"username":"9101020102", "role":"nurse", "realname":"Nurse B", "division":"B", "cap":[]}
 {"username":"9101030103", "role":"nurse", "realname":"Nurse C", "division":"A", "cap":[]}
