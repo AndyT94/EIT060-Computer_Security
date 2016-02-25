@@ -48,7 +48,7 @@ public class Format {
 			String nurse = (String) obj.get("nurse");
 			String division = (String) obj.get("division");
 			String notes = (String) obj.get("note");
-			Integer entryNbr = (Integer) obj.get("entry");
+			String entryNbr = (String) obj.get("entry");
 			if(fileName != null && !fileName.isEmpty()) {
 				return new EditCommand(fileName, doctor, nurse, division, notes, entryNbr);
 			} else {

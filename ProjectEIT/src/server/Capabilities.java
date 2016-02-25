@@ -43,9 +43,9 @@ public class Capabilities {
 	}
 
 	public void deleteRecord(String patient) {
-		for(User u: capability.keySet()) {	
-			for(Record r: capability.get(u).keySet()) {
-				if(r.getPatient().getUsername().equals(patient)) {
+		for (User u : capability.keySet()) {
+			for (Record r : capability.get(u).keySet()) {
+				if (r.getPatient().getUsername().equals(patient)) {
 					capability.get(u).remove(r);
 					break;
 				}
@@ -54,41 +54,42 @@ public class Capabilities {
 	}
 
 	public String addRecord(String username, String doctor, String nurse, String div, String note) {
-		if(doctor == null || nurse == null || div == null || note == null) {
+		if (doctor == null || nurse == null || div == null || note == null) {
 			return "Missing mandatory options! (file:VALUE doctor:VALUE nurse:VALUE division:VALUE note:VALUE)";
 		}
-		if(getUser(username) == null) {
+		if (getUser(username) == null) {
 			return "Invalid patient!";
 		}
 		Record r = getRecord(username);
-		if(r == null) {
+		if (r == null) {
 			r = new Record((Patient) getUser(username));
 		}
 		Nurse n = (Nurse) getUser(nurse);
 		Doctor d = (Doctor) getUser(doctor);
-		if(n == null || d == null) {
+		if (n == null || d == null) {
 			return "Invalid doctor or nurse!";
 		}
 		r.addEntry(n, d, div, note);
-		for(User u: capability.keySet()) {
+		for (User u : capability.keySet()) {
 			Map<Record, ArrayList<String>> rights = capability.get(u);
 			ArrayList<String> listOfRights = rights.get(r);
-			if(listOfRights == null) {
+			if (listOfRights == null) {
 				listOfRights = new ArrayList<String>();
 				rights.put(r, listOfRights);
 			}
-			if(u.getClass().equals(Government.class)) {
+			if (u.getClass().equals(Government.class)) {
 				listOfRights.add("delete");
 				break;
 			}
-			if(r.hasPatient(getUser(u.getUsername())) || r.hasDivision(u.getDivision())) {
+			if (r.hasPatient(getUser(u.getUsername())) || r.hasDivision(u.getDivision())) {
 				listOfRights.add("read");
 			}
-			if(r.hasDoctor(getUser(u.getUsername())) || r.hasNurse(getUser(u.getUsername()))) {
+			if (r.hasDoctor(getUser(u.getUsername())) || r.hasNurse(getUser(u.getUsername()))) {
 				listOfRights.add("read");
 				listOfRights.add("write");
 			}
 		}
+		//TODO SAVE TO FILE!!!!
 		return "Record entry added to " + username;
 	}
 
@@ -106,20 +107,58 @@ public class Capabilities {
 		if (u != null) {
 			StringBuilder sb = new StringBuilder();
 			Map<Record, ArrayList<String>> records = capability.get(u);
-			for(Record r : records.keySet()) {
-				if(records.get(r).contains("read")) {
+			for (Record r : records.keySet()) {
+				if (records.get(r).contains("read")) {
 					sb.append(r.getPatient().getUsername() + " ");
 				}
 			}
 			return sb.toString();
-		} 
+		}
 		return null;
 	}
-	
-	public void editRecord(String record, int entryNbr, String doctor, String nurse, String div, String note) {
-		
+
+	// TODO REFACTOR!
+	public String editRecord(String record, String entryNbr, String doctor, String nurse, String div, String note) {
+
+		for (User u : capability.keySet()) {
+			Map<Record, ArrayList<String>> rights = capability.get(u);
+			for(Record r: rights.keySet()) {
+				if(r.getPatient().getUsername().equals(record)) {
+					if(entryNbr == null) {
+						return "Missing entry number!";
+					}
+					RecordEntry re = r.getEntry(Integer.parseInt(entryNbr));
+					if(re != null) {
+						if(doctor != null && getUser(doctor) != null) {
+							re.setDoctor((Doctor)getUser(doctor));
+						}
+						if(nurse != null && getUser(nurse) != null) {
+							re.setNurse((Nurse)getUser(nurse));
+						}
+						if(div != null) {
+							re.setDivision(div);
+						}
+						if(note != null) {
+							re.setNotes(note);
+						}
+					}
+					ArrayList<String> listOfRights = rights.get(r);
+					listOfRights.clear();
+					if (r.hasPatient(getUser(u.getUsername())) || r.hasDivision(u.getDivision())) {
+						listOfRights.add("read");
+					}
+					if (r.hasDoctor(getUser(u.getUsername())) || r.hasNurse(getUser(u.getUsername()))) {
+						listOfRights.add("read");
+						listOfRights.add("write");
+					}
+					break;
+				}
+			}
+		}
+		//TODO SAVE TO FILE!!!
+		return "Record updated!";
 	}
-	
+
 	private void load(String filename) {
 		BufferedReader in = null;
 		try {

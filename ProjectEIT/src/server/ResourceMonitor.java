@@ -63,8 +63,8 @@ public class ResourceMonitor {
 				String nurse = ec.getNurse();
 				String div = ec.getDivision();
 				String note = ec.getNotes();
-				int entryNbr = ec.getEntryNbr();
-				cap.editRecord(userRecord, entryNbr, doctor, nurse, div, note);
+				String entryNbr = ec.getEntryNbr();
+				return cap.editRecord(userRecord, entryNbr, doctor, nurse, div, note);
 			} else {
 				return "Access Denied!";
 			}

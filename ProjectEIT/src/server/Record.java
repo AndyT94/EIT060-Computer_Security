@@ -20,8 +20,11 @@ public class Record {
 		recordEntries.add(new RecordEntry(n, d, div, notes));
 	}
 
-	public List<RecordEntry> getEntries() {
-		return recordEntries;
+	public RecordEntry getEntry(int entryNbr) {
+		if(entryNbr > recordEntries.size()) {
+			return null;
+		}
+		return recordEntries.get(entryNbr - 1);
 	}
 
 	public String toString() {
