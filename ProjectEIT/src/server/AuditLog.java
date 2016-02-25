@@ -26,7 +26,7 @@ public class AuditLog {
 		}
 	}
 	
-	public static void log(Level level, String logMsg) {
-		logger.log(level, logMsg);
+	public static void log(String logMsg) {
+		logger.log(Level.INFO, logMsg);
 	}
 }
