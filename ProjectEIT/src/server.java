@@ -20,6 +20,7 @@ import javax.security.cert.X509Certificate;
 
 import org.json.simple.parser.ParseException;
 
+import server.AuditLog;
 import server.ResourceMonitor;
 import util.Command;
 import util.Format;
@@ -32,6 +33,7 @@ public class server implements Runnable {
 	public server(ServerSocket ss) throws IOException {
 		serverSocket = ss;
 		rm = new ResourceMonitor();
+		AuditLog.setUp();
 		newListener();
 	}
 
@@ -44,17 +46,20 @@ public class server implements Runnable {
 			X509Certificate cert = (X509Certificate) session.getPeerCertificateChain()[0];
 			String subject = cert.getSubjectDN().getName();
 			String issuer = cert.getIssuerDN().getName();
-			BigInteger serialNbr = cert.getSerialNumber();
+	//		BigInteger serialNbr = cert.getSerialNumber();
 			numConnectedClients++;
 			
-			System.out.println("client connected");
+			
+//			System.out.println("client connected");
 
-			System.out.println("Issuer: " + issuer);
-			System.out.println("Serial number: " + serialNbr);
-			System.out.println("Welcome " + subject);
-			System.out.println(numConnectedClients + " concurrent connection(s)\n");
+//			System.out.println("Issuer: " + issuer);
+//			System.out.println("Serial number: " + serialNbr);
+//			System.out.println("Welcome " + subject);
+//			System.out.println(numConnectedClients + " concurrent connection(s)\n");
 
 			subject = subject.substring(3, 13);
+			
+			AuditLog.log(subject + " has logged in, verified by " + issuer + numConnectedClients + " concurrent connection(s)");
 			
 			PrintWriter out = null;
 			BufferedReader in = null;
@@ -69,8 +74,8 @@ public class server implements Runnable {
 					String result = rm.tryAccess(subject, cmd);
 					
 					//String rev = new StringBuilder(clientMsg).reverse().toString();
-					System.out.println("received '" + clientMsg + "' from client");
-					System.out.print("sending '" + result + "' to client...");
+					//System.out.println("received '" + clientMsg + "' from client");
+					//System.out.print("sending '" + result + "' to client...");
 					out.println(result);
 					out.flush();
 					//System.out.println("done\n");
@@ -83,8 +88,9 @@ public class server implements Runnable {
 			out.close();
 			socket.close();
 			numConnectedClients--;
-			System.out.println("client disconnected");
-			System.out.println(numConnectedClients + " concurrent connection(s)\n");
+			//System.out.println("client disconnected");
+			//System.out.println(numConnectedClients + " concurrent connection(s)\n");
+			AuditLog.log(subject + " disconnected, " + numConnectedClients + " concurrent connection(s)");
 		} catch (IOException e) {
 			System.out.println("Client died: " + e.getMessage());
 			e.printStackTrace();

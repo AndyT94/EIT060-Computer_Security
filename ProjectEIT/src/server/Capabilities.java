@@ -55,10 +55,10 @@ public class Capabilities {
 
 	public String addRecord(String username, String doctor, String nurse, String div, String note) {
 		if (doctor == null || nurse == null || div == null || note == null) {
-			return "Missing mandatory options! (file:VALUE doctor:VALUE nurse:VALUE division:VALUE note:VALUE)";
+			return "FAIL! Missing mandatory options! (file:VALUE doctor:VALUE nurse:VALUE division:VALUE note:VALUE)";
 		}
 		if (getUser(username) == null) {
-			return "Invalid patient!";
+			return "FAIL! Invalid patient!";
 		}
 		Record r = getRecord(username);
 		if (r == null) {
@@ -67,7 +67,7 @@ public class Capabilities {
 		Nurse n = (Nurse) getUser(nurse);
 		Doctor d = (Doctor) getUser(doctor);
 		if (n == null || d == null) {
-			return "Invalid doctor or nurse!";
+			return "FAIL! Invalid doctor or nurse!";
 		}
 		r.addEntry(n, d, div, note);
 		for (User u : capability.keySet()) {
@@ -90,7 +90,7 @@ public class Capabilities {
 			}
 		}
 		//TODO SAVE TO FILE!!!!
-		return "Record entry added to " + username;
+		return "SUCCESS! Record entry added to " + username;
 	}
 
 	public User getUser(String user) {
@@ -114,7 +114,7 @@ public class Capabilities {
 			}
 			return sb.toString();
 		}
-		return null;
+		return " ";
 	}
 
 	// TODO REFACTOR!
@@ -125,15 +125,24 @@ public class Capabilities {
 			for(Record r: rights.keySet()) {
 				if(r.getPatient().getUsername().equals(record)) {
 					if(entryNbr == null) {
-						return "Missing entry number!";
+						return "FAIL! Missing entry number!";
 					}
 					RecordEntry re = r.getEntry(Integer.parseInt(entryNbr));
 					if(re != null) {
-						if(doctor != null && getUser(doctor) != null) {
-							re.setDoctor((Doctor)getUser(doctor));
+						if(doctor != null) {
+							if(getUser(doctor) != null) {
+								re.setDoctor((Doctor)getUser(doctor));
+							} else {
+								return "FAIL! Invalid doctor!";
+							}
 						}
-						if(nurse != null && getUser(nurse) != null) {
-							re.setNurse((Nurse)getUser(nurse));
+						if(nurse != null) {
+							if(getUser(nurse) != null) {
+								re.setNurse((Nurse)getUser(nurse));
+							} else {
+								return "FAIL! Invalid nurse!";
+							}
+							
 						}
 						if(div != null) {
 							re.setDivision(div);
@@ -156,7 +165,7 @@ public class Capabilities {
 			}
 		}
 		//TODO SAVE TO FILE!!!
-		return "Record updated!";
+		return "SUCCESS! Record updated!";
 	}
 
 	private void load(String filename) {

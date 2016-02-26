@@ -21,8 +21,10 @@ public class ResourceMonitor {
 			String userRecord = rc.getFileName();
 			ArrayList<String> rights = cap.getAccessRights(username, userRecord);
 			if (rights != null && rights.contains("read")) {
+				AuditLog.log(username + " has read record:" + userRecord);
 				return cap.getRecord(userRecord).toString();
 			} else {
+				AuditLog.log("Denied " + username + " from reading record:" + userRecord);
 				return "Access Denied!";
 			}
 			
@@ -35,13 +37,17 @@ public class ResourceMonitor {
 				String div = ac.getDivision();
 				String doctor = ac.getDoctor();
 				String nurse = ac.getNurse();
-				return cap.addRecord(userRecord, doctor, nurse, div, note);
+				String result =  cap.addRecord(userRecord, doctor, nurse, div, note);
+				AuditLog.log(username + " tried adding record:" + userRecord + ", " + result);
+				return result;
 			} else {
+				AuditLog.log("Denied " + username + " from adding record:" + userRecord);
 				return "Access Denied!";
 			}
 			
 		} else if (cmd.getClass().equals(ListCommand.class)) {
-			return cap.getAllReadRecords(username);
+			AuditLog.log(username + " listed all readable records");
+			return "Files readable: " + cap.getAllReadRecords(username);
 			
 		} else if (cmd.getClass().equals(DeleteCommand.class)) {
 			DeleteCommand dc = (DeleteCommand) cmd;
@@ -49,8 +55,10 @@ public class ResourceMonitor {
 			ArrayList<String> rights = cap.getAccessRights(username, userRecord);
 			if(rights.contains("delete")) {
 				cap.deleteRecord(userRecord);
+				AuditLog.log(username + " deleted record:" + userRecord);
 				return "Deleted record " + userRecord;
 			} else {
+				AuditLog.log("Denied " + username + " from deleting record:" + userRecord);
 				return "Access Denied!";
 			}
 			
@@ -64,11 +72,15 @@ public class ResourceMonitor {
 				String div = ec.getDivision();
 				String note = ec.getNotes();
 				String entryNbr = ec.getEntryNbr();
-				return cap.editRecord(userRecord, entryNbr, doctor, nurse, div, note);
+				String result = cap.editRecord(userRecord, entryNbr, doctor, nurse, div, note);
+				AuditLog.log(username + " tried edit record:" + userRecord + ", " + result);
+				return result;
 			} else {
+				AuditLog.log("Denied " + username + " from editing record:" + userRecord);
 				return "Access Denied!";
 			}
 		}
+		AuditLog.log(username + " sent invalid command");
 		return "Invalid command or option(s)";
 	}
 }
