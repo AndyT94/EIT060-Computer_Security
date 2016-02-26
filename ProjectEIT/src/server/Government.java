@@ -13,7 +13,7 @@ public class Government extends User {
 
 	@Override
 	public boolean hasReadRights() {
-		return false;
+		return true;
 	}
 
 	@Override

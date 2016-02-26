@@ -7,4 +7,4 @@
 {"username":"9201010201", "role":"patient", "realname":"Patient A", "record":[{"nurse":"9101010101", "doctor":"9001010001", "division":"A", "note":"feber"}], "cap":[{"username":"9201010201", "rights":"read"}]}
 {"username":"9201020202", "role":"patient", "realname":"Patient B", "record":[], "cap":[]}
 {"username":"9201030203", "role":"patient", "realname":"Patient C", "record":[], "cap":[]}
-{"username":"9301010301", "role":"government", "realname":"Government A", "cap":[{"username":"9201010201", "rights":"delete"}]}
+{"username":"9301010301", "role":"government", "realname":"Government A", "cap":[{"username":"9201010201", "rights":"delete, read"}]}
