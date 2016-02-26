@@ -1,12 +1,13 @@
 package server;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
@@ -15,6 +16,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class Capabilities {
+	private String filename;
 	private Map<User, Map<Record, ArrayList<String>>> capability;
 
 	public Capabilities(String filename) {
@@ -89,7 +91,7 @@ public class Capabilities {
 				listOfRights.add("write");
 			}
 		}
-		//TODO SAVE TO FILE!!!!
+		save(filename);
 		return "SUCCESS! Record entry added to " + username;
 	}
 
@@ -164,11 +166,71 @@ public class Capabilities {
 				}
 			}
 		}
-		//TODO SAVE TO FILE!!!
+		save(filename);
 		return "SUCCESS! Record updated!";
 	}
 
+	@SuppressWarnings("unchecked")
+	private void save(String filename) {
+		PrintWriter out = null;
+		try {
+			out = new PrintWriter(new File("testAFile"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		for(User u: capability.keySet()) {
+			JSONObject json = new JSONObject();
+			json.put("username", u.getUsername());
+			json.put("realname", u.getRealName());
+			if(u.getRole().equals("patient")) {
+				JSONArray record = new JSONArray();
+				Record r = getRecord(u.getUsername());
+				for(int i = 0; i < r.getNbrEntries(); i++) {
+					RecordEntry re = r.getEntry(i+1);
+					JSONObject recordEntry = new JSONObject();
+					recordEntry.put("division", re.getDivision());
+					recordEntry.put("note", re.getNotes());
+					recordEntry.put("doctor", re.getDoctor().getUsername());
+					recordEntry.put("nurse", re.getNurse().getUsername());
+					record.add(recordEntry);
+				}
+				json.put("record", record);
+			}
+			json.put("role", u.getRole());
+			if(!u.getDivision().isEmpty()) {
+				json.put("division", u.getDivision());
+			}
+			JSONArray record = new JSONArray();
+			for(Record r: capability.get(u).keySet()) {
+				JSONObject rights = new JSONObject();
+				rights.put("username", r.getPatient().getUsername());
+				StringBuilder sb = new StringBuilder();
+				// if somewhere
+				ArrayList<String> list = capability.get(u).get(r);
+				for(int i = 0; i < list.size(); i++) {
+					sb.append(list.get(i) +",");
+					
+				}
+				sb.delete(sb.length()-1, sb.length());
+				rights.put("rights", sb.toString());
+				record.add(rights);
+			}
+			json.put("cap", record);
+			out.println(json.toJSONString());	
+		}
+	    out.flush();
+	    out.close();
+	}
+
+	//ONLY FOR TESTING
+	public static void main(String[] args) {
+		Capabilities c = new Capabilities("server/data/datafile");
+		c.save("he");
+	}
+	
 	private void load(String filename) {
+		this.filename = filename;
 		BufferedReader in = null;
 		try {
 			in = new BufferedReader(new FileReader(filename));

@@ -27,6 +27,10 @@ public class Record {
 		return recordEntries.get(entryNbr - 1);
 	}
 
+	public int getNbrEntries() {
+		return recordEntries.size();
+	}
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Patient: " + patient.getRealName());

@@ -34,5 +34,10 @@ public class Nurse extends User {
 	public boolean hasAddRights() {
 		return false;
 	}
+
+	@Override
+	public String getRole() {
+		return "nurse";
+	}
 	
 }

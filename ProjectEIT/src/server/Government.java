@@ -8,7 +8,7 @@ public class Government extends User {
 
 	@Override
 	public String getDivision() {
-		return " ";
+		return "";
 	}
 
 	@Override
@@ -29,5 +29,10 @@ public class Government extends User {
 	@Override
 	public boolean hasAddRights() {
 		return false;
+	}
+
+	@Override
+	public String getRole() {
+		return "government";
 	}
 }

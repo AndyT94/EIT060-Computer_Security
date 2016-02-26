@@ -55,5 +55,6 @@ public abstract class User {
 	public abstract boolean hasWriteRights();
 	public abstract boolean hasDeleteRights();
 	public abstract boolean hasAddRights();
+	public abstract String getRole();
 	
 }
