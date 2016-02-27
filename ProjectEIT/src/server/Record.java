@@ -21,10 +21,7 @@ public class Record {
 	}
 
 	public RecordEntry getEntry(int entryNbr) {
-		if(entryNbr > recordEntries.size()) {
-			return null;
-		}
-		return recordEntries.get(entryNbr - 1);
+		return entryNbr > recordEntries.size() ? null: recordEntries.get(entryNbr - 1);
 	}
 
 	public int getNbrEntries() {
@@ -36,8 +33,8 @@ public class Record {
 		sb.append("Patient: " + patient.getRealName());
 		for (int i = 0; i < recordEntries.size(); i++) {
 			RecordEntry re = recordEntries.get(i);
-			sb.append("\tEntry: " + (i + 1) + "\tDoctor: " + re.getDoctor().getRealName() + "\tNurse: "
-					+ re.getNurse().getRealName() + "\tDivision: " + re.getDivision() + "\tNotes: " + re.getNotes());
+			sb.append("\tEntry: " + (i + 1) + " Doctor: " + re.getDoctor().getRealName() + " Nurse: "
+					+ re.getNurse().getRealName() + " Division: " + re.getDivision() + " Notes: " + re.getNotes());
 		}
 		return sb.toString();
 	}
