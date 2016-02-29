@@ -53,6 +53,7 @@ public class Capabilities {
 				}
 			}
 		}
+		save(filename);
 	}
 
 	public String addRecord(String username, String doctor, String nurse, String div, String note) {
@@ -72,6 +73,7 @@ public class Capabilities {
 			return "FAIL! Invalid doctor or nurse!";
 		}
 		r.addEntry(n, d, div, note);
+
 		for (User u : capability.keySet()) {
 			Map<Record, ArrayList<String>> rights = capability.get(u);
 			ArrayList<String> listOfRights = rights.get(r);
@@ -79,17 +81,22 @@ public class Capabilities {
 				listOfRights = new ArrayList<String>();
 				rights.put(r, listOfRights);
 			}
+			listOfRights.clear();
 			if (u.getRole().equals("government")) {
 				listOfRights.add("delete");
 				listOfRights.add("read");
-				break;
 			}
-			if (r.hasPatient(getUser(u.getUsername())) || r.hasDivision(u.getDivision())) {
-				listOfRights.add("read");
-			}
+
 			if (r.hasDoctor(getUser(u.getUsername())) || r.hasNurse(getUser(u.getUsername()))) {
 				listOfRights.add("read");
 				listOfRights.add("write");
+			}
+			if (!listOfRights.contains("read")
+					&& (r.hasPatient(getUser(u.getUsername())) || r.hasDivision(u.getDivision()))) {
+				listOfRights.add("read");
+			}
+			if (u.getRole().equals("doctor")) {
+				listOfRights.add("add");
 			}
 		}
 		save(filename);
@@ -181,7 +188,7 @@ public class Capabilities {
 	private void save(String filename) {
 		PrintWriter out = null;
 		try {
-			out = new PrintWriter(new File(filename + "test"));
+			out = new PrintWriter(new File(filename));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -193,14 +200,16 @@ public class Capabilities {
 			if (u.getRole().equals("patient")) {
 				JSONArray record = new JSONArray();
 				Record r = getRecord(u.getUsername());
-				for (int i = 0; i < r.getNbrEntries(); i++) {
-					RecordEntry re = r.getEntry(i + 1);
-					JSONObject recordEntry = new JSONObject();
-					recordEntry.put("division", re.getDivision());
-					recordEntry.put("note", re.getNotes());
-					recordEntry.put("doctor", re.getDoctor().getUsername());
-					recordEntry.put("nurse", re.getNurse().getUsername());
-					record.add(recordEntry);
+				if (r != null) {
+					for (int i = 0; i < r.getNbrEntries(); i++) {
+						RecordEntry re = r.getEntry(i + 1);
+						JSONObject recordEntry = new JSONObject();
+						recordEntry.put("division", re.getDivision());
+						recordEntry.put("note", re.getNotes());
+						recordEntry.put("doctor", re.getDoctor().getUsername());
+						recordEntry.put("nurse", re.getNurse().getUsername());
+						record.add(recordEntry);
+					}
 				}
 				json.put("record", record);
 			}
@@ -228,12 +237,6 @@ public class Capabilities {
 		}
 		out.flush();
 		out.close();
-	}
-
-	// ONLY FOR TESTING
-	public static void main(String[] args) {
-		Capabilities c = new Capabilities("server/data/datafile");
-		c.save("he");
 	}
 
 	private void load(String filename) {

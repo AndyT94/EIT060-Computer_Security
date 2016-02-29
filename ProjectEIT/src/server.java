@@ -59,7 +59,7 @@ public class server implements Runnable {
 
 			subject = subject.substring(3, 13);
 			
-			AuditLog.log(subject + " has logged in, verified by " + issuer + numConnectedClients + " concurrent connection(s)");
+			AuditLog.log(subject + " has logged in, verified by " + issuer + ", " + numConnectedClients + " concurrent connection(s)");
 			
 			PrintWriter out = null;
 			BufferedReader in = null;

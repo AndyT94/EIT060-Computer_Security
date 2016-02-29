@@ -32,7 +32,7 @@ public class ResourceMonitor {
 			AddCommand ac = (AddCommand) cmd;
 			String userRecord = ac.getFileName();
 			ArrayList<String> rights = cap.getAccessRights(username, userRecord);
-			if(rights != null && rights.contains("write") && cap.getUser(username).getClass().equals(Doctor.class)) {
+			if(rights != null && rights.contains("add") && cap.getUser(username).getClass().equals(Doctor.class)) {
 				String note = ac.getNotes();
 				String div = ac.getDivision();
 				String doctor = ac.getDoctor();

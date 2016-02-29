@@ -98,4 +98,9 @@ public class Record {
 		return true;
 	}
 
+	public boolean hasPatientTest(String username) {
+		System.out.println(patient.getUsername() + " parameter: " + username);
+		return patient.getUsername().equals(username);
+	}
+
 }
