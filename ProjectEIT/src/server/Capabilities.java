@@ -47,8 +47,14 @@ public class Capabilities {
 	public void deleteRecord(String patient) {
 		for (User u : capability.keySet()) {
 			for (Record r : capability.get(u).keySet()) {
-				if (r.getPatient().getUsername().equals(patient)) {
-					capability.get(u).remove(r);
+				if (r.getPatient().getUsername().equals(patient)) {	
+					if(u.getRole().equals("doctor")) {
+						ArrayList<String> rights = new ArrayList<String>();
+						rights.add("add");
+						capability.get(u).put(new Record(r.getPatient()), rights);
+					} else {
+						capability.get(u).remove(r);
+					}
 					break;
 				}
 			}

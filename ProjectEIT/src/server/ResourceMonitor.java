@@ -53,7 +53,7 @@ public class ResourceMonitor {
 			DeleteCommand dc = (DeleteCommand) cmd;
 			String userRecord = dc.getFileName();
 			ArrayList<String> rights = cap.getAccessRights(username, userRecord);
-			if(rights.contains("delete")) {
+			if(rights != null && rights.contains("delete")) {
 				cap.deleteRecord(userRecord);
 				AuditLog.log(username + " deleted record:" + userRecord);
 				return "Deleted record " + userRecord;
@@ -66,7 +66,7 @@ public class ResourceMonitor {
 			EditCommand ec = (EditCommand) cmd;
 			String userRecord = ec.getFileName();
 			ArrayList<String> rights = cap.getAccessRights(username, userRecord);
-			if(rights.contains("write")) {
+			if(rights != null && rights.contains("write")) {
 				String doctor = ec.getDoctor();
 				String nurse = ec.getNurse();
 				String div = ec.getDivision();

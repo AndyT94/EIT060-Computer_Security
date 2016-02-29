@@ -164,3 +164,9 @@ feb 29, 2016 12:40:32 EM server.AuditLog log
 INFO: Denied 9001010001 from deleting record:9201030203
 feb 29, 2016 12:41:11 EM server.AuditLog log
 INFO: 9001010001 disconnected, 0 concurrent connection(s)
+feb 29, 2016 12:43:36 EM server.AuditLog log
+INFO: 9201020202 has logged in, verified by CN=CA, OU=A, O=LTH, L=MalmÃ¶, ST=SkÃ¥ne, C=SE, 1 concurrent connection(s)
+feb 29, 2016 12:43:50 EM server.AuditLog log
+INFO: 9201020202 sent invalid command
+feb 29, 2016 12:43:55 EM server.AuditLog log
+INFO: 9201020202 listed all readable records

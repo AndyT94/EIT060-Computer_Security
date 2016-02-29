@@ -1,10 +1,10 @@
 {"division":"B","role":"nurse","cap":[],"username":"9101020102","realname":"Nurse B"}
-{"division":"A","role":"doctor","cap":[{"rights":"add","username":"9201020202"},{"rights":"read,write,add","username":"9201030203"}],"username":"9001010001","realname":"Doctor A"}
-{"division":"B","role":"doctor","cap":[{"rights":"add","username":"9201020202"},{"rights":"add","username":"9201030203"}],"username":"9001020002","realname":"Doctor B"}
-{"division":"A","role":"nurse","cap":[{"rights":"read,write","username":"9201030203"}],"username":"9101030103","realname":"Nurse C"}
-{"division":"A","role":"nurse","cap":[{"rights":"read","username":"9201030203"}],"username":"9101010101","realname":"Nurse A"}
-{"role":"government","cap":[{"rights":"delete,read","username":"9201030203"}],"username":"9301010301","realname":"Government A"}
-{"division":"A","role":"doctor","cap":[{"rights":"add","username":"9201020202"},{"rights":"read,add","username":"9201030203"}],"username":"9001030003","realname":"Doctor C"}
+{"division":"A","role":"doctor","cap":[{"rights":"add","username":"9201010201"},{"rights":"add","username":"9201020202"},{"rights":"add","username":"9201030203"}],"username":"9001010001","realname":"Doctor A"}
+{"division":"B","role":"doctor","cap":[{"rights":"add","username":"9201010201"},{"rights":"add","username":"9201020202"},{"rights":"add","username":"9201030203"}],"username":"9001020002","realname":"Doctor B"}
+{"division":"A","role":"nurse","cap":[],"username":"9101030103","realname":"Nurse C"}
+{"division":"A","role":"nurse","cap":[],"username":"9101010101","realname":"Nurse A"}
+{"role":"government","cap":[],"username":"9301010301","realname":"Government A"}
+{"division":"A","role":"doctor","cap":[{"rights":"add","username":"9201010201"},{"rights":"add","username":"9201020202"},{"rights":"add","username":"9201030203"}],"username":"9001030003","realname":"Doctor C"}
 {"role":"patient","cap":[],"record":[],"username":"9201010201","realname":"Patient A"}
 {"role":"patient","cap":[],"record":[],"username":"9201020202","realname":"Patient B"}
-{"role":"patient","cap":[{"rights":"read","username":"9201030203"}],"record":[{"division":"A","doctor":"9001010001","note":"B","nurse":"9101030103"}],"username":"9201030203","realname":"Patient C"}
+{"role":"patient","cap":[],"record":[],"username":"9201030203","realname":"Patient C"}
