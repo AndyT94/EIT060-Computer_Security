@@ -8,7 +8,7 @@ public class ResourceMonitor {
 	private Capabilities cap;
 
 	public ResourceMonitor() {
-		cap = new Capabilities("server/data/datafile");
+		cap = new Capabilities("../server/data/datafile");
 	}
 
 	public ResourceMonitor(Capabilities cap) {

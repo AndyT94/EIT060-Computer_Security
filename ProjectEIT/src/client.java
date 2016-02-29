@@ -2,15 +2,10 @@
 import java.io.BufferedReader;
 import java.io.Console;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 import java.util.Scanner;
 
 import javax.net.ssl.KeyManagerFactory;
@@ -34,24 +29,24 @@ import util.Format;
 public class client {
 	// TODO FIX BEFORE HAND-IN IMPORTANT
 	public static void main(String[] args) {
-		// String host = null;
-		// int port = -1;
-		String host = "localhost";
-		int port = 9870;
-		// for (int i = 0; i < args.length; i++) {
-		// System.out.println("args[" + i + "] = " + args[i]);
-		// }
-		// if (args.length < 2) {
-		// System.out.println("USAGE: java client host port");
-		// System.exit(-1);
-		// }
-		// try { /* get input parameters */
-		// host = args[0];
-		// port = Integer.parseInt(args[1]);
-		// } catch (IllegalArgumentException e) {
-		// System.out.println("USAGE: java client host port");
-		// System.exit(-1);
-		// }
+		 String host = null;
+		 int port = -1;
+//		String host = "localhost";
+//		int port = 9870;
+		 for (int i = 0; i < args.length; i++) {
+		 System.out.println("args[" + i + "] = " + args[i]);
+		 }
+		 if (args.length < 2) {
+		 System.out.println("USAGE: java client host port");
+		 System.exit(-1);
+		 }
+		 try { /* get input parameters */
+		 host = args[0];
+		 port = Integer.parseInt(args[1]);
+		 } catch (IllegalArgumentException e) {
+		 System.out.println("USAGE: java client host port");
+		 System.exit(-1);
+		 }
 
 		try { /* set up a key manager for client authentication */
 			SSLSocketFactory factory = null;
@@ -119,16 +114,17 @@ public class client {
 		try {
 
 		// TODO spoofing detection, FIX TO PROJECT 2 users
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Enter username: ");
 		String username = scan.nextLine();
 		System.out.println("Enter password: ");
-
-		String pwd = scan.nextLine();
-		char[] password = pwd.toCharArray();
+//
+//		String pwd = scan.nextLine();
+//		char[] password = pwd.toCharArray();
 		
-//		Console console = System.console();
-//		char[] password = console.readPassword();
+		Console console = System.console();
+		char[] password = console.readPassword();
 
 
 			KeyStore ks = KeyStore.getInstance("JKS");
@@ -136,8 +132,8 @@ public class client {
 			KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
 			TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
 			SSLContext ctx = SSLContext.getInstance("TLS");
-			String ksPath = "client/users/" + username + "/" + username + "keystore";
-			String tsPath = "client/users/" + username + "/" + username + "truststore";
+			String ksPath = "../client/users/" + username + "/" + username + "keystore";
+			String tsPath = "../client/users/" + username + "/" + username + "truststore";
 			ks.load(new FileInputStream(ksPath), password); // keystore
 															// password
 															// (storepass)

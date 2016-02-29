@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.security.KeyStore;
 
@@ -104,8 +103,8 @@ public class server implements Runnable {
 
 	public static void main(String args[]) {
 		System.out.println("\nServer Started\n");
-		//int port = -1;
-		int port = 9870;
+		int port = -1;
+		//int port = 9870;
 		if (args.length >= 1) {
 			port = Integer.parseInt(args[0]);
 		}
@@ -133,10 +132,10 @@ public class server implements Runnable {
 				KeyStore ts = KeyStore.getInstance("JKS");
 				char[] password = "password".toCharArray();
 
-				ks.load(new FileInputStream("certificate/serverkeystore"), password); // keystore
+				ks.load(new FileInputStream("../certificate/serverkeystore"), password); // keystore
 																							// password
 																							// (storepass)
-				ts.load(new FileInputStream("certificate/servertruststore"), password); // truststore
+				ts.load(new FileInputStream("../certificate/servertruststore"), password); // truststore
 																							// password
 																							// (storepass)
 				kmf.init(ks, password); // certificate password (keypass)

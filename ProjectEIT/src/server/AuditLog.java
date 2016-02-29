@@ -16,7 +16,7 @@ public class AuditLog {
 		try {
 			logger.setUseParentHandlers(false);
 			
-			fileTxt = new FileHandler("server/data/log", true);
+			fileTxt = new FileHandler("../server/data/log", true);
 			SimpleFormatter formatterTxt = new SimpleFormatter();
 		    fileTxt.setFormatter(formatterTxt);
 		    logger.addHandler(fileTxt);
