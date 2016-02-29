@@ -97,6 +97,8 @@ public class client {
 					out.println(msg);
 					out.flush();
 					System.out.println(in.readLine());
+				} else {
+					System.out.println("Could not process command!");
 				}
 
 				// System.out.print("sending '" + msg + "' to server...");
