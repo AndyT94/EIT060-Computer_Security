@@ -170,3 +170,7 @@ feb 29, 2016 12:43:50 EM server.AuditLog log
 INFO: 9201020202 sent invalid command
 feb 29, 2016 12:43:55 EM server.AuditLog log
 INFO: 9201020202 listed all readable records
+mar 02, 2016 7:09:37 EM server.AuditLog log
+INFO: 9001010001 has logged in, verified by CN=CA, OU=A, O=LTH, L=Malmö, ST=Skåne, C=SE, 1 concurrent connection(s)
+mar 02, 2016 7:10:24 EM server.AuditLog log
+INFO: 9001010001 has logged in, verified by CN=CA, OU=A, O=LTH, L=Malmö, ST=Skåne, C=SE, 1 concurrent connection(s)

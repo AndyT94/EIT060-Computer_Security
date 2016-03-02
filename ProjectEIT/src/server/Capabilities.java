@@ -133,7 +133,6 @@ public class Capabilities {
 		return " ";
 	}
 
-	// TODO REFACTOR!
 	public String editRecord(String record, String entryNbr, String doctor, String nurse, String div, String note) {
 
 		for (User u : capability.keySet()) {
