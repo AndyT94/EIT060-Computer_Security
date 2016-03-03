@@ -101,11 +101,10 @@ public class server implements Runnable {
 
 	public static void main(String args[]) {
 		System.out.println("\nServer Started\n");
-		//int port = -1;
-		int port = 9870;
-//		if (args.length >= 1) {
-//			port = Integer.parseInt(args[0]);
-//		}
+		int port = -1;
+		if (args.length >= 1) {
+			port = Integer.parseInt(args[0]);
+		}
 		String type = "TLS";
 		try {
 			ServerSocketFactory ssf = getServerSocketFactory(type);
