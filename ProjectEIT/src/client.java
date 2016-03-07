@@ -27,32 +27,37 @@ import util.Format;
  * the firewall by following SSLSocketClientWithTunneling.java.
  */
 public class client {
-	// TODO FIX BEFORE HAND-IN IMPORTANT
+	private static int failedLogin = 0;
+	private static long latestLoginAttempt = System.currentTimeMillis();
+	
 	public static void main(String[] args) {
-		 String host = null;
-		 int port = -1;
-//		String host = "localhost";
-//		int port = 9870;
-		 for (int i = 0; i < args.length; i++) {
-		 System.out.println("args[" + i + "] = " + args[i]);
-		 }
-		 if (args.length < 2) {
-		 System.out.println("USAGE: java client host port");
-		 System.exit(-1);
-		 }
-		 try { /* get input parameters */
-		 host = args[0];
-		 port = Integer.parseInt(args[1]);
-		 } catch (IllegalArgumentException e) {
-		 System.out.println("USAGE: java client host port");
-		 System.exit(-1);
-		 }
+		String host = null;
+		int port = -1;
+
+		for (int i = 0; i < args.length; i++) {
+			System.out.println("args[" + i + "] = " + args[i]);
+		}
+		if (args.length < 2) {
+			System.out.println("USAGE: java client host port");
+			System.exit(-1);
+		}
+		try { /* get input parameters */
+			host = args[0];
+			port = Integer.parseInt(args[1]);
+		} catch (IllegalArgumentException e) {
+			System.out.println("USAGE: java client host port");
+			System.exit(-1);
+		}
 
 		try { /* set up a key manager for client authentication */
 			SSLSocketFactory factory = null;
 
 			factory = login(factory);
-
+			System.out.println("Failed logins: " + failedLogin);
+			
+			failedLogin = 0;
+			latestLoginAttempt = System.currentTimeMillis();
+			
 			SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
 			System.out.println("\nsocket before handshake:\n" + socket + "\n");
 
@@ -95,11 +100,6 @@ public class client {
 				} else {
 					System.out.println("Could not process command!");
 				}
-
-				// System.out.print("sending '" + msg + "' to server...");
-
-				// System.out.println("done");
-
 			}
 			in.close();
 			out.close();
@@ -113,20 +113,15 @@ public class client {
 	private static SSLSocketFactory login(SSLSocketFactory factory) {
 		try {
 
-		// TODO spoofing detection, FIX TO PROJECT 2 users
-		@SuppressWarnings("resource")
-		Scanner scan = new Scanner(System.in);
-		System.out.println("Enter username: ");
-		String username = scan.nextLine();
-		System.out.println("Enter password: ");
-//
-//		String pwd = scan.nextLine();
-//		char[] password = pwd.toCharArray();
-		
-		Console console = System.console();
-		char[] password = console.readPassword();
+			@SuppressWarnings("resource")
+			Scanner scan = new Scanner(System.in);
+			System.out.println("Enter username: ");
+			String username = scan.nextLine();
+			System.out.println("Enter password: ");
 
-
+			Console console = System.console();
+			char[] password = console.readPassword();
+			
 			KeyStore ks = KeyStore.getInstance("JKS");
 			KeyStore ts = KeyStore.getInstance("JKS");
 			KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
@@ -146,6 +141,11 @@ public class client {
 			factory = ctx.getSocketFactory();
 		} catch (Exception e) {
 			System.out.println("Wrong username or password!");
+			if(System.currentTimeMillis() - latestLoginAttempt > 300000) {
+				failedLogin = 0;
+			}
+			failedLogin++;
+			latestLoginAttempt = System.currentTimeMillis();
 			return login(factory);
 		}
 		return factory;

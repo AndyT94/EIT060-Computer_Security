@@ -77,10 +77,8 @@ public class server implements Runnable {
 					//System.out.print("sending '" + result + "' to client...");
 					out.println(result);
 					out.flush();
-					//System.out.println("done\n");
 				}
 			} catch (IllegalArgumentException | ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			in.close();
@@ -104,7 +102,6 @@ public class server implements Runnable {
 	public static void main(String args[]) {
 		System.out.println("\nServer Started\n");
 		int port = -1;
-		//int port = 9870;
 		if (args.length >= 1) {
 			port = Integer.parseInt(args[0]);
 		}
